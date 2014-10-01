@@ -1,0 +1,24 @@
+.atp {
+  position: relative;
+}
+
+.atp > div {
+  position: absolute;
+  text-align: center;
+  z-index: 2;
+}
+
+.atp > div.atp-time {
+  text-align: left;
+  width: 100%;
+}
+
+.atp > div.atp-clock {
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.atp > div.atp-selection {
+  border-radius: 50%;
+  z-index: 1;
+}

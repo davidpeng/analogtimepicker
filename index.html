@@ -1,0 +1,215 @@
+<!doctype html>
+<html>
+  <head>
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="dist/jquery.analogtimepicker.css">
+    <link rel="stylesheet" href="assets/css/prism.min.css">
+    <link rel="stylesheet" href="assets/css/doc.css">
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/prism.min.js"></script>
+    <script src="dist/jquery.analogtimepicker.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Analog Time Picker</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="page-header">Analog Time Picker</h1>
+      <p>Show an analog time picker so that users can input time more
+        intuitively with a clock-style interface.</p>
+      <a href="https://github.com/davidpeng/analogtimepicker/archive/master.zip"
+          class="btn btn-primary btn-lg">
+        <span class="glyphicon glyphicon-download-alt"></span> Download ZIP</a>
+      <a href="https://github.com/davidpeng/analogtimepicker"
+          class="btn btn-default btn-lg">Go to GitHub page</a>
+      <h2>Examples</h2>
+      <h3>Inline time picker</h3>
+      <p>If you want to show a time picker inline (not in a popover triggered by
+        an <code>&lt;input&gt;</code>), add <code>.analogtimepicker</code> to a
+        <code>&lt;div&gt;</code> that doesn't contain an <code>
+        &lt;input&gt;</code>.</p>
+      <div class="example">
+        <div class="analogtimepicker"></div>
+      </div>
+      <pre class="highlight"><code class="language-markup">&lt;div class="analogtimepicker"&gt;&lt;/div&gt;</code></pre>
+      <h3>Popover time picker</h3>
+      <p>If you add <code>.analogtimepicker</code> to an <code>
+        &lt;input&gt;</code> or a <code>&lt;div&gt;</code> that contains an
+        <code>&lt;input&gt;</code>, the time picker will be put in a popover
+        that is triggered by the <code>&lt;input&gt;</code>.</p>
+      <div class="example">
+        <div class="row">
+          <div class="col-xs-2">
+            <input type="text" class="form-control analogtimepicker">
+          </div>
+          <div class="col-xs-3">
+            <div class="input-group analogtimepicker">
+              <input type="text" class="form-control">
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="button">
+                  <span class="glyphicon glyphicon-time"></span>
+                </button>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <pre class="highlight"><code class="language-markup">&lt;div class="row"&gt;
+  &lt;div class="col-xs-2"&gt;
+    &lt;input type="text" class="form-control analogtimepicker"&gt;
+  &lt;/div&gt;
+  &lt;div class="col-xs-3"&gt;
+    &lt;div class="input-group analogtimepicker"&gt;
+      &lt;input type="text" class="form-control"&gt;
+      &lt;span class="input-group-btn"&gt;
+        &lt;button class="btn btn-default" type="button"&gt;
+          &lt;span class="glyphicon glyphicon-time"&gt;&lt;/span&gt;
+        &lt;/button&gt;
+      &lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+      <h2>Usage</h2>
+      <p>Enable time pickers via JavaScript:</p>
+      <pre><code class="language-javascript">$('#example').analogtimepicker(options)</code></pre>
+      <h2>Options</h2>
+      <p>Options can be passed via data attributes or JavaScript. For data
+        attributes, append the option name to <code>data-</code>, as in <code>
+        data-hour=""</code>.</p>
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Default</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>hour</td>
+            <td>number</td>
+            <td>0</td>
+            <td>The currently selected hour. This should be a number between 0
+              and 23.</td>
+          </tr>
+          <tr>
+            <td>minute</td>
+            <td>number</td>
+            <td>0</td>
+            <td>The currently selected minute. This should be a number between 0
+              and 59.</td>
+          </tr>
+          <tr>
+            <td>popoverplacement</td>
+            <td>string</td>
+            <td>'bottom'</td>
+            <td>How to position the popover &mdash; top | bottom | left | right.
+              </td>
+          </tr>
+        </tbody>
+      </table>
+      <h3>Methods</h3>
+      <h4>$().analogtimepicker(options)</h4>
+      <p>Initializes time pickers for an element collection.</p>
+      <h4>.analogtimepicker('hour')</h4>
+      <p>Gets the currently selected hour.</p>
+      <pre class="highlight"><code class="language-javascript">$('#element').analogtimepicker('hour')</code></pre>
+      <h4>.analogtimepicker('hour', number)</h4>
+      <p>Sets the currently selected hour to the specified number.</p>
+      <pre class="highlight"><code class="language-javascript">$('#element').analogtimepicker('hour', 12)</code></pre>
+      <h4>.analogtimepicker('minute')</h4>
+      <p>Gets the currently selected minute.</p>
+      <pre class="highlight"><code class="language-javascript">$('#element').analogtimepicker('minute')</code></pre>
+      <h4>.analogtimepicker('minute', number)</h4>
+      <p>Sets the currently selected minute to the specified number.</p>
+      <pre class="highlight"><code class="language-javascript">$('#element').analogtimepicker('minute', 59)</code></pre>
+      <h4>.analogtimepicker('mode')</h4>
+      <p>Gets whether the time picker is currently set to pick an hour or a
+        minute. The returned value is 'hour' or 'minute'.</p>
+      <pre class="highlight"><code class="language-javascript">$('#element').analogtimepicker('mode')</code></pre>
+      <h4>.analogtimepicker('mode', 'hour' | 'minute')</h4>
+      <p>Sets whether the time picker should be set to pick an hour or a minute.
+        </p>
+      <pre class="highlight"><code class="language-javascript">$('#element').analogtimepicker('mode', 'hour')</code></pre>
+      <h4>.analogtimepicker('popoverplacement')</h4>
+      <p>Gets how the popover is positioned. The returned value is 'top',
+        'bottom', 'left' or 'right'.</p>
+      <pre class="highlight"><code class="language-javascript">$('#element').analogtimepicker('popoverplacement')</code></pre>
+      <h4>.analogtimepicker('popoverplacement', 'top' | 'bottom' | 'left' |
+        'right')</h4>
+      <p>Sets how the popover is positioned.</p>
+      <pre class="highlight"><code class="language-javascript">$('#element').analogtimepicker('popoverplacement', 'right')</code></pre>
+      <h4>.analogtimepicker('showpopover')</h4>
+      <p>Reveals the popover if there is one.</p>
+      <pre class="highlight"><code class="language-javascript">$('#element').analogtimepicker('showpopover')</code></pre>
+      <h4>.analogtimepicker('hidepopover')</h4>
+      <p>Hides the popover.</p>
+      <pre class="highlight"><code class="language-javascript">$('#element').analogtimepicker('hidepopover')</code></pre>
+      <h4>.analogtimepicker('destroy')</h4>
+      <p>Destroys the time picker.</p>
+      <pre class="highlight"><code class="language-javascript">$('#element').analogtimepicker('destroy')</code></pre>
+      <h3>Events</h3>
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>Event Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>pick.analogtimepicker.time</td>
+            <td>This event fires when the user picks a new time, but before the
+              new time is accepted. The event object that's passed to the event
+              handler has two additional properties, <code>hour</code> and
+              <code>minute</code>, which store the newly picked time. If you
+              don't want the change to go through, you can cancel it by calling
+              <code>event.preventDefault()</code>.</td>
+          </tr>
+          <tr>
+            <td>picked.analogtimepicker.time</td>
+            <td>This event is fired when the user has picked a new time.</td>
+          </tr>
+          <tr>
+            <td>switch.analogtimepicker.mode</td>
+            <td>This event fires when the user switches to hour picking mode or
+              minute picking mode, but before the switch is finalized. The event
+              object that's passed to the event handler has a <code>mode</code>
+              property which stores the new mode. If you don't want the switch
+              to go through, you can cancel it by calling <code>
+              event.preventDefault()</code>.</td>
+          </tr>
+          <tr>
+            <td>switched.analogtimepicker.mode</td>
+            <td>This event is fired when the user has switched to hour picking
+              mode or minute picking mode.</td>
+          </tr>
+          <tr>
+            <td>show.analogtimepicker.popover</td>
+            <td>This event fires right before the popover is made visible to the
+              user.</td>
+          </tr>
+          <tr>
+            <td>shown.analogtimepicker.popover</td>
+            <td>This event is fired when the popover has been made visible to
+              the user.</td>
+          </tr>
+          <tr>
+            <td>hide.analogtimepicker.popover</td>
+            <td>This event fires right before the popover is hidden from the
+              user.</td>
+          </tr>
+          <tr>
+            <td>hidden.analogtimepicker.popover</td>
+            <td>This event is fired when the popover has been hidden from the
+              user.</td>
+          </tr>
+        </tbody>
+      </table>
+      <pre class="highlight"><code class="language-javascript">$('#example').on('picked.analogtimepicker.time', function(event) {
+  // do something...
+})</code></pre>
+    </div>
+  </body>
+</html>

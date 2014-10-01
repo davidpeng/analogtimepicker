@@ -1,0 +1,30 @@
+{
+  "name": "analogtimepicker",
+  "version": "0.1.0",
+  "description": "Analog time picker for jQuery and Bootstrap.",
+  "keywords":
+    ["analog", "time", "picker", "jquery", "bootstrap", "clock", "android"],
+  "homepage": "https://github.com/davidpeng/analogtimepicker",
+  "bugs": {
+    "url": "https://github.com/davidpeng/analogtimepicker/issues",
+    "email": "dp@z10.us"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "David Peng",
+    "email": "dp@z10.us",
+    "url": "http://z10.us/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/davidpeng/analogtimepicker.git"
+  },
+  "devDependencies": {
+    "gulp": "*",
+    "gulp-concat": "*",
+    "gulp-rename": "*",
+    "gulp-minify-css": "*",
+    "gulp-jshint": "*",
+    "gulp-uglify": "*"
+  }
+}
