@@ -3,6 +3,8 @@
 Show an analog time picker so that users can input time more intuitively with a
 clock-style interface.
 
+[View documentation with interactive examples.](http://analogtimepicker.z10.us/)
+
 ## Examples
 
 ### Inline time picker
