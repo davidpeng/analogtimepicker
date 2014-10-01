@@ -56,7 +56,7 @@ append the option name to `data-`, as in `data-hour=""`.
 | ---- | ---- | ------- | ----------- |
 | hour | number | 0 | The currently selected hour. This should be a number between 0 and 23. |
 | minute | number | 0 | The currently selected minute. This should be a number between 0 and 59. |
-| popoverplacement | string | 'bottom' | How to position the popover -- top | bottom | left | right. |
+| popoverplacement | string | 'bottom' | How to position the popover -- top \| bottom \| left \| right. |
 
 ### Methods
 
