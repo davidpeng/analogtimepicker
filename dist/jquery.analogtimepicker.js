@@ -345,7 +345,8 @@ AnalogTimePicker.prototype.getMinuteAtAngle_ = function(angle) {
 };
 
 AnalogTimePicker.prototype.switchToChangeHourMode_ = function() {
-  if (this.beforeSwitchModeHandler_('hour') !== false) {
+  if (!this.$hour_.hasClass('atp-selected') &&
+      this.beforeSwitchModeHandler_('hour') !== false) {
     this.$minute_.removeClass('atp-selected');
     var i;
     for (i = 0; i < this.$minuteOptions_.length; i++) {
@@ -361,7 +362,8 @@ AnalogTimePicker.prototype.switchToChangeHourMode_ = function() {
 };
 
 AnalogTimePicker.prototype.switchToChangeMinuteMode_ = function() {
-  if (this.beforeSwitchModeHandler_('minute') !== false) {
+  if (!this.$minute_.hasClass('atp-selected') &&
+      this.beforeSwitchModeHandler_('minute') !== false) {
     this.$hour_.removeClass('atp-selected');
     var i;
     for (i = 0; i < this.$hourOptions_.length; i++) {
@@ -499,7 +501,7 @@ AnalogTimePicker.prototype.getDisplayAmPm = function() {
       $this.data('analogtimepicker', self);
     }
     
-    if (arg0 instanceof String) {
+    if (typeof arg0 == 'string') {
       var returnValue;
       switch (arg0) {
         case 'hour':
@@ -554,11 +556,12 @@ AnalogTimePicker.prototype.getDisplayAmPm = function() {
         if (typeof self.picker == 'undefined') {
           self.picker = createPicker();
         }
+        updatePickerTime();
         positionPopover();
         $this.triggerHandler('shown.analogtimepicker.popover');
         setTimeout(function() {
           $(document).one('click.analogtimepicker', function() {
-            self.$popover.fadeOut('fast');
+            setPopoverVisible(false);
           });
         }, 0);
       }
@@ -573,7 +576,7 @@ AnalogTimePicker.prototype.getDisplayAmPm = function() {
         case 'top':
           left = anchorPosition.left +
             ($anchor.outerWidth() - self.$popover.width()) / 2;
-          top = anchorPosition.top - self.$popover.height();
+          top = anchorPosition.top - self.$popover.outerHeight();
           break;
         case 'right':
           left = anchorPosition.left + $anchor.outerWidth();
@@ -586,7 +589,7 @@ AnalogTimePicker.prototype.getDisplayAmPm = function() {
           top = anchorPosition.top + $anchor.outerHeight();
           break;
         case 'left':
-          left = anchorPosition.left - self.$popover.width();
+          left = anchorPosition.left - self.$popover.outerWidth();
           top = anchorPosition.top +
             ($anchor.outerHeight() - self.$popover.height()) / 2;
           break;
@@ -711,7 +714,7 @@ AnalogTimePicker.prototype.getDisplayAmPm = function() {
     
     function setMode(mode) {
       if (typeof self.picker != 'undefined') {
-        self.picker.setSwitchMode(mode);
+        self.picker.switchMode(mode);
       }
     }
     
@@ -757,6 +760,7 @@ AnalogTimePicker.prototype.getDisplayAmPm = function() {
       } else {
         self.$picker.empty();
       }
+      $this.removeData('analogtimepicker');
     }
   };
 

@@ -53,7 +53,7 @@
       $this.data('analogtimepicker', self);
     }
     
-    if (arg0 instanceof String) {
+    if (typeof arg0 == 'string') {
       var returnValue;
       switch (arg0) {
         case 'hour':
@@ -108,11 +108,12 @@
         if (typeof self.picker == 'undefined') {
           self.picker = createPicker();
         }
+        updatePickerTime();
         positionPopover();
         $this.triggerHandler('shown.analogtimepicker.popover');
         setTimeout(function() {
           $(document).one('click.analogtimepicker', function() {
-            self.$popover.fadeOut('fast');
+            setPopoverVisible(false);
           });
         }, 0);
       }
@@ -127,7 +128,7 @@
         case 'top':
           left = anchorPosition.left +
             ($anchor.outerWidth() - self.$popover.width()) / 2;
-          top = anchorPosition.top - self.$popover.height();
+          top = anchorPosition.top - self.$popover.outerHeight();
           break;
         case 'right':
           left = anchorPosition.left + $anchor.outerWidth();
@@ -140,7 +141,7 @@
           top = anchorPosition.top + $anchor.outerHeight();
           break;
         case 'left':
-          left = anchorPosition.left - self.$popover.width();
+          left = anchorPosition.left - self.$popover.outerWidth();
           top = anchorPosition.top +
             ($anchor.outerHeight() - self.$popover.height()) / 2;
           break;
@@ -265,7 +266,7 @@
     
     function setMode(mode) {
       if (typeof self.picker != 'undefined') {
-        self.picker.setSwitchMode(mode);
+        self.picker.switchMode(mode);
       }
     }
     
@@ -311,6 +312,7 @@
       } else {
         self.$picker.empty();
       }
+      $this.removeData('analogtimepicker');
     }
   };
 

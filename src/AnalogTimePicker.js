@@ -345,7 +345,8 @@ AnalogTimePicker.prototype.getMinuteAtAngle_ = function(angle) {
 };
 
 AnalogTimePicker.prototype.switchToChangeHourMode_ = function() {
-  if (this.beforeSwitchModeHandler_('hour') !== false) {
+  if (!this.$hour_.hasClass('atp-selected') &&
+      this.beforeSwitchModeHandler_('hour') !== false) {
     this.$minute_.removeClass('atp-selected');
     var i;
     for (i = 0; i < this.$minuteOptions_.length; i++) {
@@ -361,7 +362,8 @@ AnalogTimePicker.prototype.switchToChangeHourMode_ = function() {
 };
 
 AnalogTimePicker.prototype.switchToChangeMinuteMode_ = function() {
-  if (this.beforeSwitchModeHandler_('minute') !== false) {
+  if (!this.$minute_.hasClass('atp-selected') &&
+      this.beforeSwitchModeHandler_('minute') !== false) {
     this.$hour_.removeClass('atp-selected');
     var i;
     for (i = 0; i < this.$hourOptions_.length; i++) {
