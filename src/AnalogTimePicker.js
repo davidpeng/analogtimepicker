@@ -119,7 +119,7 @@ function AnalogTimePicker($element, hour, minute) {
   this.positionClockSelection_();
   
   this.$hoverSelection_ = $('<div>');
-  this.$hoverSelection_.addClass('atp-selection');
+  this.$hoverSelection_.addClass('atp-hover-selection');
   this.$hoverSelection_.width(this.selectionSize_ / 3);
   this.$hoverSelection_.height(this.selectionSize_ / 3);
   this.$hoverSelection_.hide();

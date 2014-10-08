@@ -28,6 +28,10 @@
 .atp > div.atp-selection {
   background-color: #2f97ff;
 }
+
+.atp > div.atp-hover-selection {
+  background-color: rgba(0, 49, 153, 0.5);
+}
 .atp {
   position: relative;
 }
@@ -51,6 +55,11 @@
 .atp > div.atp-selection {
   border-radius: 50%;
   z-index: 1;
+}
+
+.atp > div.atp-hover-selection {
+  border-radius: 50%;
+  z-index: 3;
 }
 .atp-popover-content {
   padding: 2px;
