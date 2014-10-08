@@ -549,8 +549,8 @@ AnalogTimePicker.prototype.getDisplayAmPm = function() {
       var event = $.Event('show.analogtimepicker.popover');
       $this.triggerHandler(event);
       if (!event.isDefaultPrevented()) {
-        $('.atp-popover').hide();
-        self.$popover.show();
+        $('.atp-popover').not(self.$popover).fadeOut('fast');
+        self.$popover.fadeIn('fast');
         if (typeof self.picker == 'undefined') {
           self.picker = createPicker();
         }
@@ -558,7 +558,7 @@ AnalogTimePicker.prototype.getDisplayAmPm = function() {
         $this.triggerHandler('shown.analogtimepicker.popover');
         setTimeout(function() {
           $(document).one('click.analogtimepicker', function() {
-            self.$popover.hide();
+            self.$popover.fadeOut('fast');
           });
         }, 0);
       }
@@ -737,7 +737,7 @@ AnalogTimePicker.prototype.getDisplayAmPm = function() {
           var event = $.Event('hide.analogtimepicker.popover');
           $this.triggerHandler(event);
           if (!event.isDefaultPrevented()) {
-            self.$popover.hide();
+            self.$popover.fadeOut('fast');
             $this.triggerHandler('hidden.analogtimepicker.popover');
           }
         }
