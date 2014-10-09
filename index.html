@@ -22,6 +22,16 @@
         <span class="glyphicon glyphicon-download-alt"></span> Download ZIP</a>
       <a href="https://github.com/davidpeng/analogtimepicker"
           class="btn btn-default btn-lg">Go to GitHub page</a>
+      <a href="https://github.com/davidpeng/analogtimepicker/issues"
+          class="btn btn-danger btn-lg">Found a problem?</a>
+      <h2>Dependencies</h2>
+      <p>The analog time picker requires jQuery, and optionally requires
+        Bootstrap's popover CSS if you want to show an analog time picker in a
+        popover.</p>
+      <pre class="highlight"><code class="language-markup">&lt;link rel="stylesheet" href="bootstrap.min.css"&gt; &lt;!-- only required for popovers --&gt;
+&lt;link rel="stylesheet" href="jquery.analogtimepicker.css"&gt;
+&lt;script src="jquery.min.js"&gt;&lt;/script&gt;
+&lt;script src="jquery.analogtimepicker.js"&gt;&lt;/script&gt;</code></pre>
       <h2>Examples</h2>
       <h3>Inline time picker</h3>
       <p>If you want to show a time picker inline (not in a popover triggered by
@@ -54,20 +64,15 @@
           </div>
         </div>
       </div>
-      <pre class="highlight"><code class="language-markup">&lt;div class="row"&gt;
-  &lt;div class="col-xs-2"&gt;
-    &lt;input type="text" class="form-control analogtimepicker"&gt;
-  &lt;/div&gt;
-  &lt;div class="col-xs-3"&gt;
-    &lt;div class="input-group analogtimepicker"&gt;
-      &lt;input type="text" class="form-control"&gt;
-      &lt;span class="input-group-btn"&gt;
-        &lt;button class="btn btn-default" type="button"&gt;
-          &lt;span class="glyphicon glyphicon-time"&gt;&lt;/span&gt;
-        &lt;/button&gt;
-      &lt;/span&gt;
-    &lt;/div&gt;
-  &lt;/div&gt;
+      <pre class="highlight"><code class="language-markup">&lt;input type="text" class="form-control analogtimepicker"&gt;
+
+&lt;div class="input-group analogtimepicker"&gt;
+  &lt;input type="text" class="form-control"&gt;
+  &lt;span class="input-group-btn"&gt;
+    &lt;button class="btn btn-default" type="button"&gt;
+      &lt;span class="glyphicon glyphicon-time"&gt;&lt;/span&gt;
+    &lt;/button&gt;
+  &lt;/span&gt;
 &lt;/div&gt;</code></pre>
       <h2>Usage</h2>
       <p>Enable time pickers via JavaScript:</p>
@@ -210,6 +215,8 @@
       <pre class="highlight"><code class="language-javascript">$('#example').on('picked.analogtimepicker.time', function(event) {
   // do something...
 })</code></pre>
+      <h2>License</h2>
+      <a href="https://raw.githubusercontent.com/davidpeng/analogtimepicker/master/LICENSE">MIT</a>
     </div>
   </body>
 </html>

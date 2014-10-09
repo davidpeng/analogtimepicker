@@ -5,6 +5,18 @@ clock-style interface.
 
 [View documentation with interactive examples.](http://analogtimepicker.z10.us/)
 
+## Dependencies
+
+The analog time picker requires jQuery, and optionally requires Bootstrap's
+popover CSS if you want to show an analog time picker in a popover.
+
+```html
+<link rel="stylesheet" href="bootstrap.min.css"> <!-- only required for popovers -->
+<link rel="stylesheet" href="jquery.analogtimepicker.css">
+<script src="jquery.min.js"></script>
+<script src="jquery.analogtimepicker.js"></script>
+```
+
 ## Examples
 
 ### Inline time picker
@@ -24,20 +36,15 @@ If you add `.analogtimepicker` to an `<input>` or a `<div>` that contains an
 `<input>`.
 
 ```html
-<div class="row">
-  <div class="col-xs-2">
-    <input type="text" class="form-control analogtimepicker">
-  </div>
-  <div class="col-xs-3">
-    <div class="input-group analogtimepicker">
-      <input type="text" class="form-control">
-      <span class="input-group-btn">
-        <button class="btn btn-default" type="button">
-          <span class="glyphicon glyphicon-time"></span>
-        </button>
-      </span>
-    </div>
-  </div>
+<input type="text" class="form-control analogtimepicker">
+
+<div class="input-group analogtimepicker">
+  <input type="text" class="form-control">
+  <span class="input-group-btn">
+    <button class="btn btn-default" type="button">
+      <span class="glyphicon glyphicon-time"></span>
+    </button>
+  </span>
 </div>
 ```
 
@@ -151,3 +158,7 @@ $('#example').on('picked.analogtimepicker.time', function(event) {
   // do something...
 })
 ```
+
+## License
+
+[MIT](https://raw.githubusercontent.com/davidpeng/analogtimepicker/master/LICENSE)
