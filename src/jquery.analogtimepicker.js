@@ -151,8 +151,9 @@
     }
     
     function createPicker() {
-      var picker = new AnalogTimePicker(self.$picker[0],
-        self.settings.hour, self.settings.minute);
+      var picker = new AnalogTimePicker(self.$picker[0]);
+      picker.setHour(self.settings.hour);
+      picker.setMinute(self.settings.minute);
       picker.beforeChangeTime(function(hour, minute) {
         var event = $.Event('pick.analogtimepicker.time', {
           hour: hour,
@@ -189,8 +190,8 @@
     }
     
     function updateInputText() {
-      self.$input.val(self.picker.getDisplayHour() + ':' +
-        self.picker.getDisplayMinute() + ' ' + self.picker.getDisplayAmPm());
+      self.$input.val(self.picker.getFormattedHour() + ':' +
+        self.picker.getFormattedMinute() + ' ' + self.picker.getFormattedAmPm());
     }
     
     function updatePickerTime() {
