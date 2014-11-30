@@ -1,29 +1,29 @@
-.atp {
+.analogtimepicker-container {
   position: relative;
 }
 
-.atp > div {
+.analogtimepicker-container > div {
   position: absolute;
   text-align: center;
   z-index: 2;
 }
 
-.atp > div.atp-time {
+.analogtimepicker-container > div.analogtimepicker-time {
   text-align: left;
   width: 100%;
 }
 
-.atp > div.atp-clock {
+.analogtimepicker-container > div.analogtimepicker-clock {
   border-radius: 50%;
   z-index: 1;
 }
 
-.atp > div.atp-selection {
+.analogtimepicker-container > div.analogtimepicker-selection {
   border-radius: 50%;
   z-index: 1;
 }
 
-.atp > div.atp-hover-selection {
+.analogtimepicker-container > div.analogtimepicker-hover-selection {
   border-radius: 50%;
   z-index: 3;
 }

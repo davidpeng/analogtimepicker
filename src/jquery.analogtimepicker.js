@@ -21,14 +21,14 @@
       }
       if (typeof self.$input != 'undefined') {
         self.$popover =
-          $('<div class="popover atp-popover"><div class="arrow"></div></div>');
+          $('<div class="popover analogtimepicker-popover"><div class="arrow"></div></div>');
         self.$popover.addClass(self.settings.popoverplacement);
         self.$popover.click(function(event) {
           event.stopPropagation();
         });
         var $popoverContent = $('<div>');
         $popoverContent.addClass('popover-content');
-        $popoverContent.addClass('atp-popover-content');
+        $popoverContent.addClass('analogtimepicker-popover-content');
         self.$picker = $('<div>');
         self.$picker.appendTo($popoverContent);
         $popoverContent.appendTo(self.$popover);
@@ -103,7 +103,7 @@
       var event = $.Event('show.analogtimepicker.popover');
       $this.triggerHandler(event);
       if (!event.isDefaultPrevented()) {
-        $('.atp-popover').not(self.$popover).fadeOut('fast');
+        $('.analogtimepicker-popover').not(self.$popover).fadeOut('fast');
         self.$popover.fadeIn('fast');
         if (typeof self.picker == 'undefined') {
           self.picker = createPicker();

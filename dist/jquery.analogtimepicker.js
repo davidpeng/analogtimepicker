@@ -1,6 +1,6 @@
 function AnalogTimePicker($element, hour, minute) {
   this.$element_ = $element;
-  this.$element_.className += ' atp';
+  this.$element_.className += ' analogtimepicker-container';
   this.hour_ = typeof hour != 'undefined' ? hour : 0;
   this.minute_ = typeof minute != 'undefined' ? minute : 0;
   this.width_ = this.$element_.offsetWidth;
@@ -15,7 +15,7 @@ function AnalogTimePicker($element, hour, minute) {
   this.afterSwitchModeHandler_ = function() {};
   
   var $time = document.createElement('div');
-  $time.className = 'atp-time';
+  $time.className = 'analogtimepicker-time';
   this.$element_.appendChild($time);
   
   this.$hour_ = document.createElement('div');
@@ -24,7 +24,7 @@ function AnalogTimePicker($element, hour, minute) {
   this.$hour_.style.display = 'inline-block';
   this.$hour_.style.fontSize = this.largeFontSize_ + 'px';
   this.$hour_.style.textAlign = 'right';
-  this.$hour_.className = 'atp-selected';
+  this.$hour_.className = 'analogtimepicker-selected';
   $time.appendChild(this.$hour_);
   this.$hour_.style.width = this.$hour_.offsetWidth + 'px';
   this.$hour_.textContent = this.getDisplayHour_(this.hour_);
@@ -66,7 +66,7 @@ function AnalogTimePicker($element, hour, minute) {
       optionHeight);
   
   var $clock = document.createElement('div');
-  $clock.className = 'atp-clock';
+  $clock.className = 'analogtimepicker-clock';
   $clock.style.left = 
       this.clockCenterX_ - this.clockRadius_ - optionWidth * 0.9 + 'px';
   $clock.style.top =
@@ -119,21 +119,21 @@ function AnalogTimePicker($element, hour, minute) {
   this.selectionSize_ = Math.max(this.$am_.offsetWidth, this.$am_.offsetHeight);
   
   this.$clockSelection_ = document.createElement('div');
-  this.$clockSelection_.className = 'atp-selection';
+  this.$clockSelection_.className = 'analogtimepicker-selection';
   this.$clockSelection_.style.width = this.selectionSize_ + 'px';
   this.$clockSelection_.style.height = this.selectionSize_ + 'px';
   this.$element_.appendChild(this.$clockSelection_);
   this.positionClockSelection_();
   
   this.$hoverSelection_ = document.createElement('div');
-  this.$hoverSelection_.className = 'atp-hover-selection';
+  this.$hoverSelection_.className = 'analogtimepicker-hover-selection';
   this.$hoverSelection_.style.width = this.selectionSize_ / 3 + 'px';
   this.$hoverSelection_.style.height = this.selectionSize_ / 3 + 'px';
   this.$hoverSelection_.style.display = 'none';
   this.$element_.appendChild(this.$hoverSelection_);
   
   this.$amPmSelection_ = document.createElement('div');
-  this.$amPmSelection_.className = 'atp-selection';
+  this.$amPmSelection_.className = 'analogtimepicker-selection';
   this.$amPmSelection_.style.width = this.selectionSize_ * 1.2 + 'px';
   this.$amPmSelection_.style.height = this.selectionSize_ * 1.2 + 'px';
   this.$element_.appendChild(this.$amPmSelection_);
@@ -173,13 +173,13 @@ AnalogTimePicker.prototype.getAngleAtMinute_ = function(minute) {
 };
 
 AnalogTimePicker.prototype.positionClockSelection_ = function() {
-  var angle = this.$hour_.className == 'atp-selected' ?
+  var angle = this.$hour_.className == 'analogtimepicker-selected' ?
       this.getAngleAtHour_(this.hour_) : this.getAngleAtMinute_(this.minute_);
   this.positionAtAngle_(this.$clockSelection_, angle);
 };
 
 AnalogTimePicker.prototype.positionHoverSelection_ = function(value) {
-  var angle = this.$hour_.className == 'atp-selected' ?
+  var angle = this.$hour_.className == 'analogtimepicker-selected' ?
     this.getAngleAtHour_(value) : this.getAngleAtMinute_(value);
   this.positionAtAngle_(this.$hoverSelection_, angle);
 };
@@ -272,7 +272,7 @@ AnalogTimePicker.prototype.attachEventHandlers_ = function() {
 AnalogTimePicker.prototype.handleMouseMove_ = function(coordinates) {
   if (this.isOverClockOption_(coordinates)) {
     var angle = this.getAngleAtCoordinates_(coordinates);
-    if (this.$hour_.className == 'atp-selected') {
+    if (this.$hour_.className == 'analogtimepicker-selected') {
       var hour = this.getHourAtAngle_(angle);
       this.$hour_.textContent = this.getDisplayHour_(hour);
       this.positionHoverSelection_(hour);
@@ -284,7 +284,7 @@ AnalogTimePicker.prototype.handleMouseMove_ = function(coordinates) {
     this.$hoverSelection_.style.display = 'block';
     this.$element_.style.cursor = 'pointer';
   } else {
-    if (this.$hour_.className == 'atp-selected') {
+    if (this.$hour_.className == 'analogtimepicker-selected') {
       this.$hour_.textContent = this.getDisplayHour_(this.hour_);
     } else {
       this.$minute_.textContent = this.getDisplayMinute_(this.minute_);
@@ -297,7 +297,7 @@ AnalogTimePicker.prototype.handleMouseMove_ = function(coordinates) {
 AnalogTimePicker.prototype.handleMouseUp_ = function(coordinates) {
   if (this.isOverClockOption_(coordinates)) {
     var angle = this.getAngleAtCoordinates_(coordinates);
-    if (this.$hour_.className == 'atp-selected') {
+    if (this.$hour_.className == 'analogtimepicker-selected') {
       var newHour =
         Math.floor(this.hour_ / 12) * 12 + this.getHourAtAngle_(angle);
       if (this.hour_ != newHour &&
@@ -354,7 +354,7 @@ AnalogTimePicker.prototype.getMinuteAtAngle_ = function(angle) {
 };
 
 AnalogTimePicker.prototype.switchToChangeHourMode_ = function() {
-  if (this.$hour_.className != 'atp-selected' &&
+  if (this.$hour_.className != 'analogtimepicker-selected' &&
       this.beforeSwitchModeHandler_('hour') !== false) {
     this.$minute_.className = '';
     var i;
@@ -364,14 +364,14 @@ AnalogTimePicker.prototype.switchToChangeHourMode_ = function() {
     for (i = 0; i < this.$hourOptions_.length; i++) {
       this.$hourOptions_[i].style.display = 'block';
     }
-    this.$hour_.className = 'atp-selected';
+    this.$hour_.className = 'analogtimepicker-selected';
     this.positionClockSelection_();
     this.afterSwitchModeHandler_();
   }
 };
 
 AnalogTimePicker.prototype.switchToChangeMinuteMode_ = function() {
-  if (this.$minute_.className != 'atp-selected' &&
+  if (this.$minute_.className != 'analogtimepicker-selected' &&
       this.beforeSwitchModeHandler_('minute') !== false) {
     this.$hour_.className = '';
     var i;
@@ -381,7 +381,7 @@ AnalogTimePicker.prototype.switchToChangeMinuteMode_ = function() {
     for (i = 0; i < this.$minuteOptions_.length; i++) {
       this.$minuteOptions_[i].style.display = 'block';
     }
-    this.$minute_.className = 'atp-selected';
+    this.$minute_.className = 'analogtimepicker-selected';
     this.positionClockSelection_();
     this.afterSwitchModeHandler_();
   }
@@ -399,7 +399,7 @@ AnalogTimePicker.prototype.switchMode = function(mode) {
 };
 
 AnalogTimePicker.prototype.getMode = function() {
-  return this.$hour_.className == 'atp-selected' ? 'hour' : 'minute';
+  return this.$hour_.className == 'analogtimepicker-selected' ? 'hour' : 'minute';
 };
 
 AnalogTimePicker.prototype.setHour = function(hour) {
@@ -478,14 +478,14 @@ AnalogTimePicker.prototype.getDisplayAmPm = function() {
       }
       if (typeof self.$input != 'undefined') {
         self.$popover =
-          $('<div class="popover atp-popover"><div class="arrow"></div></div>');
+          $('<div class="popover analogtimepicker-popover"><div class="arrow"></div></div>');
         self.$popover.addClass(self.settings.popoverplacement);
         self.$popover.click(function(event) {
           event.stopPropagation();
         });
         var $popoverContent = $('<div>');
         $popoverContent.addClass('popover-content');
-        $popoverContent.addClass('atp-popover-content');
+        $popoverContent.addClass('analogtimepicker-popover-content');
         self.$picker = $('<div>');
         self.$picker.appendTo($popoverContent);
         $popoverContent.appendTo(self.$popover);
@@ -560,7 +560,7 @@ AnalogTimePicker.prototype.getDisplayAmPm = function() {
       var event = $.Event('show.analogtimepicker.popover');
       $this.triggerHandler(event);
       if (!event.isDefaultPrevented()) {
-        $('.atp-popover').not(self.$popover).fadeOut('fast');
+        $('.analogtimepicker-popover').not(self.$popover).fadeOut('fast');
         self.$popover.fadeIn('fast');
         if (typeof self.picker == 'undefined') {
           self.picker = createPicker();
