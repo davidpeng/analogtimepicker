@@ -227,12 +227,12 @@ AnalogTimePicker.prototype.attachEventHandlers_ = function() {
     if (picker.isOverClockOption_(coordinates)) {
       event.preventDefault();
       picker.tapped_ = true;
-      function touchEndListener(event) {
+      var touchEndListener = function(event) {
         document.removeEventListener('touchend', touchEndListener);
         var coordinates = picker.getClockCoordinates_(event.changedTouches[0]);
         picker.handleMouseUp_(coordinates);
         picker.tapped_ = false;
-      }
+      };
       document.addEventListener('touchend', touchEndListener);
     }
   });
