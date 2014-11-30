@@ -151,7 +151,7 @@
     }
     
     function createPicker() {
-      var picker = new AnalogTimePicker(self.$picker,
+      var picker = new AnalogTimePicker(self.$picker[0],
         self.settings.hour, self.settings.minute);
       picker.beforeChangeTime(function(hour, minute) {
         var event = $.Event('pick.analogtimepicker.time', {

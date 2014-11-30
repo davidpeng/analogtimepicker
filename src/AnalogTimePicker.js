@@ -1,6 +1,6 @@
 function AnalogTimePicker($element, hour, minute) {
   this.$element_ = $element;
-  this.$element_.className += 'atp';
+  this.$element_.className += ' atp';
   this.hour_ = typeof hour != 'undefined' ? hour : 0;
   this.minute_ = typeof minute != 'undefined' ? minute : 0;
   this.width_ = this.$element_.offsetWidth;
@@ -322,10 +322,12 @@ AnalogTimePicker.prototype.handleMouseUp_ = function(coordinates) {
 };
 
 AnalogTimePicker.prototype.getClockCoordinates_ = function(clientCoordinates) {
-  var elementPageOffset = this.$element_.getBoundingClientRect();
+  var rect = this.$element_.getBoundingClientRect();
+  var elementPageX = rect.left + document.body.scrollLeft;
+  var elementPageY = rect.top + document.body.scrollTop;
   return {
-    x: clientCoordinates.pageX - elementPageOffset.left - this.clockCenterX_,
-    y: clientCoordinates.pageY - elementPageOffset.top - this.clockCenterY_
+    x: clientCoordinates.pageX - elementPageX - this.clockCenterX_,
+    y: clientCoordinates.pageY - elementPageY - this.clockCenterY_
   };
 };
 
