@@ -3,11 +3,9 @@ function AnalogTimePicker($element, hour, minute) {
   this.$element_.className += ' analogtimepicker-container';
   this.hour_ = typeof hour != 'undefined' ? hour : 0;
   this.minute_ = typeof minute != 'undefined' ? minute : 0;
-  this.width_ = this.$element_.offsetWidth;
-  this.height_ = this.$element_.offsetHeight;
-  this.largeFontSize_ = this.height_ / 6;
+  this.largeFontSize_ = this.$element_.offsetHeight / 6;
   this.smallFontSize_ = this.largeFontSize_ / 3;
-  this.optionFontSize_ = this.height_ / 14;
+  this.optionFontSize_ = this.$element_.offsetHeight / 14;
   this.tapped_ = false;
   this.beforeChangeTimeHandler_ = function() {};
   this.afterChangeTimeHandler_ = function() {};
@@ -58,12 +56,12 @@ function AnalogTimePicker($element, hour, minute) {
   var optionHeight = $option.offsetHeight;
   this.$element_.removeChild($option);
   
-  this.clockCenterX_ = this.width_ / 2;
-  this.clockCenterY_ = this.$hour_.offsetHeight +
-      (this.height_ - this.$hour_.offsetHeight - optionHeight) / 2;
-  this.clockRadius_ = Math.min(this.width_ / 2 - optionWidth,
-      (this.height_ - this.$hour_.offsetHeight - optionHeight) / 2 -
-      optionHeight);
+  this.clockCenterX_ = this.$element_.offsetWidth / 2;
+  this.clockCenterY_ = this.$hour_.offsetHeight + (this.$element_.offsetHeight -
+      this.$hour_.offsetHeight - optionHeight) / 2;
+  this.clockRadius_ = Math.min(this.$element_.offsetWidth / 2 - optionWidth,
+      (this.$element_.offsetHeight - this.$hour_.offsetHeight - optionHeight) /
+      2 - optionHeight);
   
   var $clock = document.createElement('div');
   $clock.className = 'analogtimepicker-clock';
