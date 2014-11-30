@@ -7,10 +7,6 @@ function AnalogTimePicker($element) {
   this.smallFontSize_ = this.largeFontSize_ / 3;
   this.optionFontSize_ = this.$element_.offsetHeight / 14;
   this.tapped_ = false;
-  this.beforeChangeTimeHandler_ = function() {};
-  this.afterChangeTimeHandler_ = function() {};
-  this.beforeSwitchModeHandler_ = function() {};
-  this.afterSwitchModeHandler_ = function() {};
   
   var $time = document.createElement('div');
   $time.className = 'analogtimepicker-time';
@@ -200,12 +196,10 @@ AnalogTimePicker.prototype.attachEventHandlers_ = function() {
   
   picker.$amPm_.addEventListener('click', function() {
     var newHour = (picker.hour_ + 12) % 24;
-    if (picker.beforeChangeTimeHandler_(newHour, this.minute_) !== false) {
-      picker.hour_ = newHour;
-      picker.$amPm_.textContent = picker.formatAmPm_(picker.hour_);
-      picker.positionAmPmSelection_();
-      picker.afterChangeTimeHandler_();
-    }
+    picker.hour_ = newHour;
+    picker.$amPm_.textContent = picker.formatAmPm_(picker.hour_);
+    picker.positionAmPmSelection_();
+    picker.triggerEvent_('timechange');
   });
   
   picker.$element_.addEventListener('mousemove', function(event) {
@@ -244,24 +238,20 @@ AnalogTimePicker.prototype.attachEventHandlers_ = function() {
   picker.$am_.addEventListener('click', function() {
     if (picker.hour_ >= 12) {
       var newHour = picker.hour_ - 12;
-      if (picker.beforeChangeTimeHandler_(newHour, this.minute_) !== false) {
-        picker.hour_ = newHour;
-        picker.$amPm_.textContent = picker.formatAmPm_(picker.hour_);
-        picker.positionAmPmSelection_();
-        picker.afterChangeTimeHandler_();
-      }
+      picker.hour_ = newHour;
+      picker.$amPm_.textContent = picker.formatAmPm_(picker.hour_);
+      picker.positionAmPmSelection_();
+      picker.triggerEvent_('timechange');
     }
   });
   
   picker.$pm_.addEventListener('click', function() {
     if (picker.hour_ < 12) {
       var newHour = picker.hour_ + 12;
-      if (picker.beforeChangeTimeHandler_(newHour, this.minute_) !== false) {
-        picker.hour_ = newHour;
-        picker.$amPm_.textContent = picker.formatAmPm_(picker.hour_);
-        picker.positionAmPmSelection_();
-        picker.afterChangeTimeHandler_();
-      }
+      picker.hour_ = newHour;
+      picker.$amPm_.textContent = picker.formatAmPm_(picker.hour_);
+      picker.positionAmPmSelection_();
+      picker.triggerEvent_('timechange');
     }
   });
 };
@@ -297,21 +287,19 @@ AnalogTimePicker.prototype.handleMouseUp_ = function(coordinates) {
     if (this.$hour_.className == 'analogtimepicker-selected') {
       var newHour =
         Math.floor(this.hour_ / 12) * 12 + this.getHourAtAngle_(angle);
-      if (this.hour_ != newHour &&
-          this.beforeChangeTimeHandler_(newHour, this.minute_) !== false) {
+      if (this.hour_ != newHour) {
         this.hour_ = newHour;
         this.$hour_.textContent = this.formatHour_(this.hour_);
-        this.afterChangeTimeHandler_();
+        this.triggerEvent_('timechange');
       }
       this.switchToChangeMinuteMode_();
     } else {
       var newMinute = this.getMinuteAtAngle_(angle);
-      if (this.minute_ != newMinute &&
-          this.beforeChangeTimeHandler_(this.hour_, newMinute) !== false) {
+      if (this.minute_ != newMinute) {
         this.minute_ = newMinute;
         this.$minute_.textContent = this.formatMinute_(this.minute_);
         this.positionClockSelection_();
-        this.afterChangeTimeHandler_();
+        this.triggerEvent_('timechange');
       }
     }
     this.$hoverSelection_.style.display = 'none';
@@ -351,8 +339,7 @@ AnalogTimePicker.prototype.getMinuteAtAngle_ = function(angle) {
 };
 
 AnalogTimePicker.prototype.switchToChangeHourMode_ = function() {
-  if (this.$hour_.className != 'analogtimepicker-selected' &&
-      this.beforeSwitchModeHandler_('hour') !== false) {
+  if (this.$hour_.className != 'analogtimepicker-selected') {
     this.$minute_.className = '';
     var i;
     for (i = 0; i < this.$minuteOptions_.length; i++) {
@@ -363,13 +350,12 @@ AnalogTimePicker.prototype.switchToChangeHourMode_ = function() {
     }
     this.$hour_.className = 'analogtimepicker-selected';
     this.positionClockSelection_();
-    this.afterSwitchModeHandler_();
+    this.triggerEvent_('modechange');
   }
 };
 
 AnalogTimePicker.prototype.switchToChangeMinuteMode_ = function() {
-  if (this.$minute_.className != 'analogtimepicker-selected' &&
-      this.beforeSwitchModeHandler_('minute') !== false) {
+  if (this.$minute_.className != 'analogtimepicker-selected') {
     this.$hour_.className = '';
     var i;
     for (i = 0; i < this.$hourOptions_.length; i++) {
@@ -380,8 +366,14 @@ AnalogTimePicker.prototype.switchToChangeMinuteMode_ = function() {
     }
     this.$minute_.className = 'analogtimepicker-selected';
     this.positionClockSelection_();
-    this.afterSwitchModeHandler_();
+    this.triggerEvent_('modechange');
   }
+};
+
+AnalogTimePicker.prototype.triggerEvent_ = function(type) {
+  var event = document.createEvent('Event');
+  event.initEvent(type, true, true);
+  this.$element_.dispatchEvent(event);
 };
 
 AnalogTimePicker.prototype.switchMode = function(mode) {
@@ -423,22 +415,6 @@ AnalogTimePicker.prototype.getHour = function() {
 
 AnalogTimePicker.prototype.getMinute = function() {
   return this.minute_;
-};
-
-AnalogTimePicker.prototype.beforeChangeTime = function(handler) {
-  this.beforeChangeTimeHandler_ = handler;
-};
-
-AnalogTimePicker.prototype.afterChangeTime = function(handler) {
-  this.afterChangeTimeHandler_ = handler;
-};
-
-AnalogTimePicker.prototype.beforeSwitchMode = function(handler) {
-  this.beforeSwitchModeHandler_ = handler;
-};
-
-AnalogTimePicker.prototype.afterSwitchMode = function(handler) {
-  this.afterSwitchModeHandler_ = handler;
 };
 
 AnalogTimePicker.prototype.getFormattedHour = function() {
@@ -608,15 +584,7 @@ AnalogTimePicker.prototype.getFormattedAmPm = function() {
       var picker = new AnalogTimePicker(self.$picker[0]);
       picker.setHour(self.settings.hour);
       picker.setMinute(self.settings.minute);
-      picker.beforeChangeTime(function(hour, minute) {
-        var event = $.Event('pick.analogtimepicker.time', {
-          hour: hour,
-          minute: minute
-        });
-        $this.triggerHandler(event);
-        return !event.isDefaultPrevented();
-      });
-      picker.afterChangeTime(function() {
+      self.$picker.on('timechange', function() {
         if (typeof self.$input != 'undefined') {
           updateInputText();
           self.$input.trigger('change');
@@ -627,14 +595,7 @@ AnalogTimePicker.prototype.getFormattedAmPm = function() {
         });
         $this.triggerHandler(event);
       });
-      picker.beforeSwitchMode(function(mode) {
-        var event = $.Event('switch.analogtimepicker.mode', {
-          mode: mode
-        });
-        $this.triggerHandler(event);
-        return !event.isDefaultPrevented();
-      });
-      picker.afterSwitchMode(function() {
+      self.$picker.on('modechange', function() {
         var event = $.Event('switched.analogtimepicker.mode', {
           mode: picker.getMode()
         });

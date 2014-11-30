@@ -154,15 +154,7 @@
       var picker = new AnalogTimePicker(self.$picker[0]);
       picker.setHour(self.settings.hour);
       picker.setMinute(self.settings.minute);
-      picker.beforeChangeTime(function(hour, minute) {
-        var event = $.Event('pick.analogtimepicker.time', {
-          hour: hour,
-          minute: minute
-        });
-        $this.triggerHandler(event);
-        return !event.isDefaultPrevented();
-      });
-      picker.afterChangeTime(function() {
+      self.$picker.on('timechange', function() {
         if (typeof self.$input != 'undefined') {
           updateInputText();
           self.$input.trigger('change');
@@ -173,14 +165,7 @@
         });
         $this.triggerHandler(event);
       });
-      picker.beforeSwitchMode(function(mode) {
-        var event = $.Event('switch.analogtimepicker.mode', {
-          mode: mode
-        });
-        $this.triggerHandler(event);
-        return !event.isDefaultPrevented();
-      });
-      picker.afterSwitchMode(function() {
+      self.$picker.on('modechange', function() {
         var event = $.Event('switched.analogtimepicker.mode', {
           mode: picker.getMode()
         });
