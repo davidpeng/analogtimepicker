@@ -9,71 +9,58 @@ function AnalogTimePicker($element) {
   this.tapped_ = false;
   
   var $time = document.createElement('div');
-  $time.className = 'analogtimepicker-time';
+  $time.className = 'analogtimepicker-textpart';
   this.$element_.appendChild($time);
   
-  this.$hour_ = document.createElement('div');
+  this.$hour_ = document.createElement('span');
+  this.$hour_.className =
+      'analogtimepicker-textpart-hour analogtimepicker-textpart-selected';
   this.$hour_.textContent = this.getFormattedHour();
-  this.$hour_.style.cursor = 'pointer';
-  this.$hour_.style.display = 'inline-block';
-  this.$hour_.style.fontSize = this.largeFontSize_ + 'px';
-  this.$hour_.style.textAlign = 'right';
-  this.$hour_.className = 'analogtimepicker-selected';
   $time.appendChild(this.$hour_);
   this.$hour_.style.width = this.$hour_.offsetWidth + 'px';
   
   var $colon = document.createElement('span');
+  $colon.className = 'analogtimepicker-textpart-colon';
   $colon.textContent = ':';
-  $colon.style.fontSize = this.largeFontSize_ + 'px';
   $time.appendChild($colon);
   
   this.$minute_ = document.createElement('span');
+  this.$minute_.className = 'analogtimepicker-textpart-minute';
   this.$minute_.textContent = this.getFormattedMinute();
-  this.$minute_.style.cursor = 'pointer';
-  this.$minute_.style.fontSize = this.largeFontSize_ + 'px';
   $time.appendChild(this.$minute_);
   
   this.$amPm_ = document.createElement('span');
+  this.$amPm_.className = 'analogtimepicker-textpart-ampm';
   this.$amPm_.textContent = this.getFormattedAmPm();
-  this.$amPm_.style.cursor = 'pointer';
-  this.$amPm_.style.fontSize = this.smallFontSize_ + 'px';
   $time.appendChild(this.$amPm_);
   
-  this.$hour_.style.marginLeft =
-      ($time.offsetWidth - this.$hour_.offsetWidth - $colon.offsetWidth -
-       this.$minute_.offsetWidth - this.$amPm_.offsetWidth) / 2 + 'px';
-  
   var $option = document.createElement('div');
+  $option.className = 'analogtimepicker-clockpart-number';
   $option.textContent = this.formatMinute_(0);
-  $option.style.fontSize = this.optionFontSize_ + 'px';
   this.$element_.appendChild($option);
   var optionWidth = $option.offsetWidth;
   var optionHeight = $option.offsetHeight;
   this.$element_.removeChild($option);
   
-  this.clockCenterX_ = this.$element_.offsetWidth / 2;
-  this.clockCenterY_ = this.$hour_.offsetHeight + (this.$element_.offsetHeight -
-      this.$hour_.offsetHeight - optionHeight) / 2;
-  this.clockRadius_ = Math.min(this.$element_.offsetWidth / 2 - optionWidth,
-      (this.$element_.offsetHeight - this.$hour_.offsetHeight - optionHeight) /
-      2 - optionHeight);
+  this.$clockPart_ = document.createElement('div');
+  this.$clockPart_.className = 'analogtimepicker-clockpart';
+  this.$clockPart_.style.paddingBottom = optionHeight * 0.8 + 'px';
+  this.$element_.appendChild(this.$clockPart_);
+  
+  this.clockCenter_ = this.$clockPart_.offsetWidth / 2;
+  this.clockRadius_ = this.$clockPart_.offsetWidth / 2 - optionWidth;
   
   var $clock = document.createElement('div');
-  $clock.className = 'analogtimepicker-clock';
-  $clock.style.left = 
-      this.clockCenterX_ - this.clockRadius_ - optionWidth * 0.9 + 'px';
-  $clock.style.top =
-      this.clockCenterY_ - this.clockRadius_ - optionWidth * 0.9 + 'px';
-  $clock.style.width = this.clockRadius_ * 2 + optionWidth * 1.8 + 'px';
-  $clock.style.height = this.clockRadius_ * 2 + optionWidth * 1.8 + 'px';
-  this.$element_.appendChild($clock);
+  $clock.className = 'analogtimepicker-clockpart-clock';
+  this.$clockPart_.appendChild($clock);
+  $clock.style.height = $clock.offsetWidth + 'px';
   
   this.$hourOptions_ = [];
   for (hour = 0; hour < 12; hour++) {
     $option = document.createElement('div');
+    $option.className = 'analogtimepicker-clockpart-number';
     $option.textContent = this.formatHour_(hour);
-    $option.style.fontSize = this.optionFontSize_ + 'px';
-    this.$element_.appendChild($option);
+    this.$clockPart_.appendChild($option);
     this.positionAtAngle_($option, this.getAngleAtHour_(hour));
     this.$hourOptions_.push($option);
   }
@@ -81,55 +68,53 @@ function AnalogTimePicker($element) {
   this.$minuteOptions_ = [];
   for (minute = 0; minute < 60; minute += 5) {
     $option = document.createElement('div');
+    $option.className = 'analogtimepicker-clockpart-number';
     $option.textContent = this.formatMinute_(minute);
-    $option.style.fontSize = this.optionFontSize_ + 'px';
-    this.$element_.appendChild($option);
+    this.$clockPart_.appendChild($option);
     this.positionAtAngle_($option, this.getAngleAtMinute_(minute));
     $option.style.display = 'none';
     this.$minuteOptions_.push($option);
   }
   
   this.$am_ = document.createElement('div');
+  this.$am_.className = 'analogtimepicker-clockpart-ampm';
   this.$am_.textContent = 'AM';
-  this.$am_.style.cursor = 'pointer';
-  this.$am_.style.fontSize = this.optionFontSize_ + 'px';
-  this.$element_.appendChild(this.$am_);
+  this.$clockPart_.appendChild(this.$am_);
   this.$am_.style.left =
-      this.clockCenterX_ - this.clockRadius_ - optionWidth / 2 + 'px';
+      this.clockCenter_ - this.clockRadius_ - optionWidth / 2 + 'px';
   this.$am_.style.top =
-      this.clockCenterY_ + this.clockRadius_ + optionHeight / 2 + 'px';
+      this.clockCenter_ + this.clockRadius_ + optionHeight / 2 + 'px';
   
   this.$pm_ = document.createElement('div');
+  this.$pm_.className = 'analogtimepicker-clockpart-ampm';
   this.$pm_.textContent = 'PM';
-  this.$pm_.style.cursor = 'pointer';
-  this.$pm_.style.fontSize = this.optionFontSize_ + 'px';
-  this.$element_.appendChild(this.$pm_);
-  this.$pm_.style.left = this.clockCenterX_ + this.clockRadius_ -
+  this.$clockPart_.appendChild(this.$pm_);
+  this.$pm_.style.left = this.clockCenter_ + this.clockRadius_ -
       this.$pm_.offsetWidth + optionWidth / 2 + 'px';
-  this.$pm_.style.top = this.clockCenterY_ + this.clockRadius_ +
+  this.$pm_.style.top = this.clockCenter_ + this.clockRadius_ +
       optionHeight / 2 + 'px';
   
   this.selectionSize_ = Math.max(this.$am_.offsetWidth, this.$am_.offsetHeight);
   
   this.$clockSelection_ = document.createElement('div');
-  this.$clockSelection_.className = 'analogtimepicker-selection';
+  this.$clockSelection_.className = 'analogtimepicker-clockpart-selection';
   this.$clockSelection_.style.width = this.selectionSize_ + 'px';
   this.$clockSelection_.style.height = this.selectionSize_ + 'px';
-  this.$element_.appendChild(this.$clockSelection_);
+  this.$clockPart_.appendChild(this.$clockSelection_);
   this.positionClockSelection_();
   
   this.$hoverSelection_ = document.createElement('div');
-  this.$hoverSelection_.className = 'analogtimepicker-hover-selection';
+  this.$hoverSelection_.className = 'analogtimepicker-clockpart-hoverselection';
   this.$hoverSelection_.style.width = this.selectionSize_ / 3 + 'px';
   this.$hoverSelection_.style.height = this.selectionSize_ / 3 + 'px';
   this.$hoverSelection_.style.display = 'none';
-  this.$element_.appendChild(this.$hoverSelection_);
+  this.$clockPart_.appendChild(this.$hoverSelection_);
   
   this.$amPmSelection_ = document.createElement('div');
-  this.$amPmSelection_.className = 'analogtimepicker-selection';
+  this.$amPmSelection_.className = 'analogtimepicker-clockpart-selection';
   this.$amPmSelection_.style.width = this.selectionSize_ * 1.2 + 'px';
   this.$amPmSelection_.style.height = this.selectionSize_ * 1.2 + 'px';
-  this.$element_.appendChild(this.$amPmSelection_);
+  this.$clockPart_.appendChild(this.$amPmSelection_);
   this.$amPmSelection_.style.top = this.$am_.offsetTop -
       (this.selectionSize_ * 1.2 - this.$am_.offsetHeight) / 2 + 'px';
   this.positionAmPmSelection_();
@@ -151,9 +136,9 @@ AnalogTimePicker.prototype.formatAmPm_ = function(hour) {
 };
 
 AnalogTimePicker.prototype.positionAtAngle_ = function($element, angle) {
-  $element.style.left = this.clockCenterX_ +
+  $element.style.left = this.clockCenter_ +
       this.clockRadius_ * Math.cos(angle) - $element.offsetWidth / 2 + 'px';
-  $element.style.top = this.clockCenterY_ +
+  $element.style.top = this.clockCenter_ +
       this.clockRadius_ * Math.sin(angle) - $element.offsetHeight / 2 + 'px';
 };
 
@@ -166,14 +151,16 @@ AnalogTimePicker.prototype.getAngleAtMinute_ = function(minute) {
 };
 
 AnalogTimePicker.prototype.positionClockSelection_ = function() {
-  var angle = this.$hour_.className == 'analogtimepicker-selected' ?
+  var angle = this.$hour_.className ==
+      'analogtimepicker-textpart-hour  analogtimepicker-textpart-selected' ?
       this.getAngleAtHour_(this.hour_) : this.getAngleAtMinute_(this.minute_);
   this.positionAtAngle_(this.$clockSelection_, angle);
 };
 
 AnalogTimePicker.prototype.positionHoverSelection_ = function(value) {
-  var angle = this.$hour_.className == 'analogtimepicker-selected' ?
-    this.getAngleAtHour_(value) : this.getAngleAtMinute_(value);
+  var angle = this.$hour_.className ==
+      'analogtimepicker-textpart-hour analogtimepicker-textpart-selected' ?
+      this.getAngleAtHour_(value) : this.getAngleAtMinute_(value);
   this.positionAtAngle_(this.$hoverSelection_, angle);
 };
 
@@ -259,7 +246,8 @@ AnalogTimePicker.prototype.attachEventHandlers_ = function() {
 AnalogTimePicker.prototype.handleMouseMove_ = function(coordinates) {
   if (this.isOverClockOption_(coordinates)) {
     var angle = this.getAngleAtCoordinates_(coordinates);
-    if (this.$hour_.className == 'analogtimepicker-selected') {
+    if (this.$hour_.className ==
+        'analogtimepicker-textpart-hour analogtimepicker-textpart-selected') {
       var hour = this.getHourAtAngle_(angle);
       this.$hour_.textContent = this.formatHour_(hour);
       this.positionHoverSelection_(hour);
@@ -271,7 +259,8 @@ AnalogTimePicker.prototype.handleMouseMove_ = function(coordinates) {
     this.$hoverSelection_.style.display = 'block';
     this.$element_.style.cursor = 'pointer';
   } else {
-    if (this.$hour_.className == 'analogtimepicker-selected') {
+    if (this.$hour_.className ==
+        'analogtimepicker-textpart-hour analogtimepicker-textpart-selected') {
       this.$hour_.textContent = this.formatHour_(this.hour_);
     } else {
       this.$minute_.textContent = this.formatMinute_(this.minute_);
@@ -284,7 +273,8 @@ AnalogTimePicker.prototype.handleMouseMove_ = function(coordinates) {
 AnalogTimePicker.prototype.handleMouseUp_ = function(coordinates) {
   if (this.isOverClockOption_(coordinates)) {
     var angle = this.getAngleAtCoordinates_(coordinates);
-    if (this.$hour_.className == 'analogtimepicker-selected') {
+    if (this.$hour_.className ==
+        'analogtimepicker-textpart-hour analogtimepicker-textpart-selected') {
       var newHour =
         Math.floor(this.hour_ / 12) * 12 + this.getHourAtAngle_(angle);
       if (this.hour_ != newHour) {
@@ -307,12 +297,12 @@ AnalogTimePicker.prototype.handleMouseUp_ = function(coordinates) {
 };
 
 AnalogTimePicker.prototype.getClockCoordinates_ = function(clientCoordinates) {
-  var rect = this.$element_.getBoundingClientRect();
+  var rect = this.$clockPart_.getBoundingClientRect();
   var elementPageX = rect.left + document.body.scrollLeft;
   var elementPageY = rect.top + document.body.scrollTop;
   return {
-    x: clientCoordinates.pageX - elementPageX - this.clockCenterX_,
-    y: clientCoordinates.pageY - elementPageY - this.clockCenterY_
+    x: clientCoordinates.pageX - elementPageX - this.clockCenter_,
+    y: clientCoordinates.pageY - elementPageY - this.clockCenter_
   };
 };
 
@@ -339,8 +329,9 @@ AnalogTimePicker.prototype.getMinuteAtAngle_ = function(angle) {
 };
 
 AnalogTimePicker.prototype.switchToChangeHourMode_ = function() {
-  if (this.$hour_.className != 'analogtimepicker-selected') {
-    this.$minute_.className = '';
+  if (this.$hour_.className !=
+      'analogtimepicker-textpart-hour analogtimepicker-textpart-selected') {
+    this.$minute_.className = 'analogtimepicker-textpart-hour';
     var i;
     for (i = 0; i < this.$minuteOptions_.length; i++) {
       this.$minuteOptions_[i].style.display = 'none';
@@ -348,15 +339,17 @@ AnalogTimePicker.prototype.switchToChangeHourMode_ = function() {
     for (i = 0; i < this.$hourOptions_.length; i++) {
       this.$hourOptions_[i].style.display = 'block';
     }
-    this.$hour_.className = 'analogtimepicker-selected';
+    this.$hour_.className =
+        'analogtimepicker-textpart-hour analogtimepicker-textpart-selected';
     this.positionClockSelection_();
     this.triggerEvent_('modechange');
   }
 };
 
 AnalogTimePicker.prototype.switchToChangeMinuteMode_ = function() {
-  if (this.$minute_.className != 'analogtimepicker-selected') {
-    this.$hour_.className = '';
+  if (this.$minute_.className !=
+      'analogtimepicker-textpart-minute analogtimepicker-textpart-selected') {
+    this.$hour_.className = 'analogtimepicker-textpart-minute';
     var i;
     for (i = 0; i < this.$hourOptions_.length; i++) {
       this.$hourOptions_[i].style.display = 'none';
@@ -364,7 +357,8 @@ AnalogTimePicker.prototype.switchToChangeMinuteMode_ = function() {
     for (i = 0; i < this.$minuteOptions_.length; i++) {
       this.$minuteOptions_[i].style.display = 'block';
     }
-    this.$minute_.className = 'analogtimepicker-selected';
+    this.$minute_.className =
+        'analogtimepicker-textpart-minute analogtimepicker-textpart-selected';
     this.positionClockSelection_();
     this.triggerEvent_('modechange');
   }
@@ -388,7 +382,9 @@ AnalogTimePicker.prototype.switchMode = function(mode) {
 };
 
 AnalogTimePicker.prototype.getMode = function() {
-  return this.$hour_.className == 'analogtimepicker-selected' ? 'hour' : 'minute';
+  return this.$hour_.className ==
+      'analogtimepicker-textpart-hour analogtimepicker-textpart-selected' ?
+      'hour' : 'minute';
 };
 
 AnalogTimePicker.prototype.setHour = function(hour) {
