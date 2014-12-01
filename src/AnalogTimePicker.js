@@ -3,9 +3,6 @@ function AnalogTimePicker($element) {
   this.$element_.className += ' analogtimepicker-container';
   this.hour_ = 0;
   this.minute_ = 0;
-  this.largeFontSize_ = this.$element_.offsetHeight / 6;
-  this.smallFontSize_ = this.largeFontSize_ / 3;
-  this.optionFontSize_ = this.$element_.offsetHeight / 14;
   this.tapped_ = false;
   
   var $time = document.createElement('div');
