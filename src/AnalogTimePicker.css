@@ -74,7 +74,7 @@
   z-index: 1;
 }
 
-.analogtimepicker-clockpart-hoverselection {
+.analogtimepicker-clockpart-hover {
   background-color: rgba(0, 49, 153, 0.5);
   border-radius: 50%;
   position: absolute;
