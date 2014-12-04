@@ -1,4 +1,31 @@
 function AnalogTimePicker($element) {
+  this.decorate_($element);
+}
+
+AnalogTimePicker.Class = {
+  CONTAINER: 'analogtimepicker-container',
+  TextPart: {
+    CONTAINER: 'analogtimepicker-textpart',
+    HOUR: 'analogtimepicker-textpart-hour',
+    HOUR_SELECTED: 'analogtimepicker-textpart-hour ' +
+        'analogtimepicker-textpart-selected',
+    COLON: 'analogtimepicker-textpart-colon',
+    MINUTE: 'analogtimepicker-textpart-minute',
+    MINUTE_SELECTED: 'analogtimepicker-textpart-minute ' +
+        'analogtimepicker-textpart-selected',
+    AMPM: 'analogtimepicker-textpart-ampm'
+  },
+  ClockPart: {
+    CONTAINER: 'analogtimepicker-clockpart',
+    NUMBER: 'analogtimepicker-clockpart-number',
+    CLOCK: 'analogtimepicker-clockpart-clock',
+    AMPM: 'analogtimepicker-clockpart-ampm',
+    SELECTION: 'analogtimepicker-clockpart-selection',
+    HOVER: 'analogtimepicker-clockpart-hover'
+  }
+};
+
+AnalogTimePicker.prototype.decorate_ = function($element) {
   this.$element_ = $element;
   this.$element_.className += ' ' + AnalogTimePicker.Class.CONTAINER;
   this.hour_ = 0;
@@ -116,29 +143,6 @@ function AnalogTimePicker($element) {
   this.positionAmPmSelection_();
   
   this.attachEventHandlers_();
-}
-
-AnalogTimePicker.Class = {
-  CONTAINER: 'analogtimepicker-container',
-  TextPart: {
-    CONTAINER: 'analogtimepicker-textpart',
-    HOUR: 'analogtimepicker-textpart-hour',
-    HOUR_SELECTED: 'analogtimepicker-textpart-hour ' +
-        'analogtimepicker-textpart-selected',
-    COLON: 'analogtimepicker-textpart-colon',
-    MINUTE: 'analogtimepicker-textpart-minute',
-    MINUTE_SELECTED: 'analogtimepicker-textpart-minute ' +
-        'analogtimepicker-textpart-selected',
-    AMPM: 'analogtimepicker-textpart-ampm'
-  },
-  ClockPart: {
-    CONTAINER: 'analogtimepicker-clockpart',
-    NUMBER: 'analogtimepicker-clockpart-number',
-    CLOCK: 'analogtimepicker-clockpart-clock',
-    AMPM: 'analogtimepicker-clockpart-ampm',
-    SELECTION: 'analogtimepicker-clockpart-selection',
-    HOVER: 'analogtimepicker-clockpart-hover'
-  }
 };
 
 AnalogTimePicker.prototype.formatHour_ = function(hour) {
@@ -358,7 +362,7 @@ AnalogTimePicker.prototype.switchToChangeHourMode_ = function() {
     for (i = 0; i < this.$hourOptions_.length; i++) {
       this.$hourOptions_[i].style.display = 'block';
     }
-    this.$hour_.className = AnalogTimePicker.Class.TextPart.HOUR_SELECTED;;
+    this.$hour_.className = AnalogTimePicker.Class.TextPart.HOUR_SELECTED;
     this.positionClockSelection_();
     this.triggerEvent_('modechange');
   }
