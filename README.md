@@ -7,154 +7,123 @@ clock-style interface.
 
 ## Dependencies
 
-The analog time picker requires jQuery, and optionally requires Bootstrap's
-popover CSS if you want to show an analog time picker in a popover.
+The analog time picker has no external dependencies. You'll just need to add the
+following lines to your HTML to start using the analog time picker component.
 
 ```html
-<link rel="stylesheet" href="bootstrap.min.css"> <!-- only required for popovers -->
-<link rel="stylesheet" href="jquery.analogtimepicker.css">
-<script src="jquery.min.js"></script>
-<script src="jquery.analogtimepicker.js"></script>
+<link rel="stylesheet" href="analogtimepicker.css">
+<script src="analogtimepicker.js"></script>
 ```
 
 ## Examples
 
 ### Inline time picker
 
-If you want to show a time picker inline (not in a popover triggered by an
-`<input>`), add `.analogtimepicker` to a `<div>` that doesn't contain an
-`<input>`.
-
 ```html
-<div class="analogtimepicker"></div>
+<div id="inlinepicker"></div>
+<script>
+  var container = document.getElementById('inlinepicker');
+  new AnalogTimePicker(container);
+</script>
 ```
 
-### Popover time picker
-
-If you add `.analogtimepicker` to an `<input>` or a `<div>` that contains an
-`<input>`, the time picker will be put in a popover that is triggered by the
-`<input>`.
+### Popup time picker
 
 ```html
-<input type="text" class="form-control analogtimepicker">
-
-<div class="input-group analogtimepicker">
-  <input type="text" class="form-control">
-  <span class="input-group-btn">
-    <button class="btn btn-default" type="button">
-      <span class="glyphicon glyphicon-time"></span>
-    </button>
-  </span>
-</div>
+<input type="text" id="time">
+<script>
+  var input = document.getElementById('time');
+  new AnalogTimePicker(input);
+</script>
 ```
 
 ## Usage
 
-Enable time pickers via JavaScript:
-
-```javascript
-$('#example').analogtimepicker(options)
-```
-
-## Options
-
-Options can be passed via data attributes or JavaScript. For data attributes,
-append the option name to `data-`, as in `data-hour=""`.
-
-| Name | Type | Default | Description |
-| ---- | ---- | ------- | ----------- |
-| hour | number | 0 | The currently selected hour. This should be a number between 0 and 23. |
-| minute | number | 0 | The currently selected minute. This should be a number between 0 and 59. |
-| popoverplacement | string | 'bottom' | How to position the popover -- top \| bottom \| left \| right. |
-
 ### Methods
 
-#### $().analogtimepicker(options)
-Initializes time pickers for an element collection.
+#### AnalogTimePicker(element)
+Initializes a time picker. If the element supplied is an `<input>`, the time
+picker will be created in a popup shown when the user starts to edit the
+`<input>`. Otherwise, the element will be a container for the time picker.
+```javascript
+var container = document.getElementById('timepicker');
+var picker = new AnalogTimePicker(container);
+```
 
-#### .analogtimepicker('hour')
+#### .getHour()
 Gets the currently selected hour.
 ```javascript
-$('#element').analogtimepicker('hour')
+picker.getHour()
 ```
 
-#### .analogtimepicker('hour', number)
+#### .setHour(number)
 Sets the currently selected hour to the specified number.
 ```javascript
-$('#element').analogtimepicker('hour', 12)
+picker.setHour(12)
 ```
 
-#### .analogtimepicker('minute')
+#### .getMinute()
 Gets the currently selected minute.
 ```javascript
-$('#element').analogtimepicker('minute')
+picker.getMinute()
 ```
 
-#### .analogtimepicker('minute', number)
+#### .setMinute(number)
 Sets the currently selected minute to the specified number.
 ```javascript
-$('#element').analogtimepicker('minute', 59)
+picker.setMinute(59)
 ```
 
-#### .analogtimepicker('mode')
+#### .getMode()
 Gets whether the time picker is currently set to pick an hour or a minute. The
 returned value is 'hour' or 'minute'.
 ```javascript
-$('#element').analogtimepicker('mode')
+picker.getMode()
 ```
 
-#### .analogtimepicker('mode', 'hour' | 'minute')
+#### .setMode('hour' | 'minute')
 Sets whether the time picker should be set to pick an hour or a minute.
 ```javascript
-$('#element').analogtimepicker('mode', 'hour')
+picker.setMode('hour')
 ```
 
-#### .analogtimepicker('popoverplacement')
-Gets how the popover is positioned. The returned value is 'top', 'bottom',
-'left' or 'right'.
+#### .showPopup()
+Reveals the popup.
 ```javascript
-$('#element').analogtimepicker('popoverplacement')
+picker.showPopup()
 ```
 
-#### .analogtimepicker('popoverplacement', 'top' | 'bottom' | 'left' | 'right')
-Sets how the popover is positioned.
+#### .hidePopup()
+Hides the popup.
 ```javascript
-$('#element').analogtimepicker('popoverplacement', 'right')
+picker.hidePopup()
 ```
 
-#### .analogtimepicker('showpopover')
-Reveals the popover if there is one.
+#### .addEventListener(type, function)
+Specify a function to call when an event of the specified type is triggered.
 ```javascript
-$('#element').analogtimepicker('showpopover')
+picker.addEventListener('timechange', function() {
+  console.log('hour: ' + this.getHour() + ' minute: ' + this.getMinute());
+});
 ```
 
-#### .analogtimepicker('hidepopover')
-Hides the popover.
+#### .removeEventListener(type, function)
+Remove a previously added function from being called when an event is triggered.
 ```javascript
-$('#element').analogtimepicker('hidepopover')
-```
-
-#### .analogtimepicker('destroy')
-Destroys the time picker.
-```javascript
-$('#element').analogtimepicker('destroy')
+picker.removeEventListener('timechange', previouslyAddedListener);
 ```
 
 ### Events
 
 | Event Type | Description |
 | ---------- | ----------- |
-| pick.analogtimepicker.time | This event fires when the user picks a new time, but before the new time is accepted. The event object that's passed to the event handler has two additional properties, `hour` and `minute`, which store the newly picked time. If you don't want the change to go through, you can cancel it by calling `event.preventDefault()`. |
-| picked.analogtimepicker.time | This event is fired when the user has picked a new time. |
-| switch.analogtimepicker.mode | This event fires when the user switches to hour picking mode or minute picking mode, but before the switch is finalized. The event object that's passed to the event handler has a `mode` property which stores the new mode. If you don't want the switch to go through, you can cancel it by calling ` event.preventDefault()`. |
-| switched.analogtimepicker.mode | This event is fired when the user has switched to hour picking mode or minute picking mode. |
-| show.analogtimepicker.popover | This event fires right before the popover is made visible to the user. |
-| shown.analogtimepicker.popover | This event is fired when the popover has been made visible to the user. |
-| hide.analogtimepicker.popover | This event fires right before the popover is hidden from the user. |
-| hidden.analogtimepicker.popover | This event is fired when the popover has been hidden from the user. |
+| timechange | This event is fired when the user has picked a new time. |
+| modechange | This event is fired when the user has switched to hour picking mode or minute picking mode. |
+| popupshow | This event is fired when the popup has been made visible to the user. |
+| popuphide | This event is fired when the popup has been hidden from the user. |
 
 ```javascript
-$('#example').on('picked.analogtimepicker.time', function(event) {
+picker.addEventListener('timechange', function() {
   // do something...
 })
 ```
