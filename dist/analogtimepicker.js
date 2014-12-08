@@ -4,6 +4,7 @@ function AnalogTimePicker(element) {
   this.hour_ = 0;
   this.minute_ = 0;
   this.mode_ = 'hour';
+  this.listeners_ = {};
   this.tapped_ = false;
   if (element.tagName == 'INPUT') {
     this.popup_ = document.createElement('div');
@@ -246,7 +247,7 @@ AnalogTimePicker.prototype.addEventListeners_ = function() {
     }
     
     picker.input_.addEventListener('click', function() {
-      picker.showPopup_();
+      picker.showPopup_(true);
     });
   }
 };
@@ -309,7 +310,7 @@ AnalogTimePicker.prototype.getAngleValue_ = function(angle) {
   }
 };
 
-AnalogTimePicker.prototype.showPopup_ = function() {
+AnalogTimePicker.prototype.showPopup = function(triggerEvent) {
   var rect = this.input_.getBoundingClientRect();
   var inputX = rect.left + document.body.scrollLeft;
   var inputY = rect.top + document.body.scrollTop;
@@ -320,10 +321,21 @@ AnalogTimePicker.prototype.showPopup_ = function() {
   var hidePopup = function(event) {
     if (!this.container_.contains(event.target)) {
       document.body.removeEventListener('click', hidePopup);
-      this.popup_.style.display = 'none';
+      this.hidePopup(true);
     }
   }.bind(this);
   document.body.addEventListener('click', hidePopup, true);
+  
+  if (triggerEvent) {
+    this.triggerEvent_('popupshow');
+  }
+};
+
+AnalogTimePicker.prototype.hidePopup = function(triggerEvent) {
+  this.popup_.style.display = 'none';
+  if (triggerEvent) {
+    this.triggerEvent_('popuphide');
+  }
 };
 
 AnalogTimePicker.prototype.syncWithInput_ = function() {
@@ -395,9 +407,11 @@ AnalogTimePicker.prototype.getMinute = function() {
 };
 
 AnalogTimePicker.prototype.triggerEvent_ = function(type) {
-  var event = document.createEvent('Event');
-  event.initEvent(type, true, true);
-  this.container_.dispatchEvent(event);
+  if (this.listeners_[type]) {
+    for (var i = 0; i < this.listeners_[type].length; i++) {
+      this.listeners_[type][i].call(this);
+    }
+  }
 };
 
 AnalogTimePicker.prototype.updateInput_ = function() {
@@ -405,4 +419,20 @@ AnalogTimePicker.prototype.updateInput_ = function() {
   var minute = this.getFormattedMinute_(this.minute_);
   var period = this.getFormattedPeriod_(this.hour_);
   this.input_.value = hour + AnalogTimePicker.SEPARATOR + minute + ' ' + period;
+};
+
+AnalogTimePicker.prototype.addEventListener = function(type, listener) {
+  if (!this.listeners_[type]) {
+    this.listeners_[type] = [];
+  }
+  this.listeners_[type].push(listener);
+};
+
+AnalogTimePicker.prototype.removeEventListener = function(type, listener) {
+  if (this.listeners_[type]) {
+    var index = this.listeners_[type].indexOf(listener);
+    if (index != -1) {
+      this.listeners_[type].splice(index, 1);
+    }
+  }
 };

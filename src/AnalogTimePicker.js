@@ -4,6 +4,7 @@ function AnalogTimePicker(element) {
   this.hour_ = 0;
   this.minute_ = 0;
   this.mode_ = 'hour';
+  this.listeners_ = {};
   this.tapped_ = false;
   if (element.tagName == 'INPUT') {
     this.popup_ = document.createElement('div');
@@ -406,9 +407,11 @@ AnalogTimePicker.prototype.getMinute = function() {
 };
 
 AnalogTimePicker.prototype.triggerEvent_ = function(type) {
-  var event = document.createEvent('Event');
-  event.initEvent(type, true, true);
-  this.container_.dispatchEvent(event);
+  if (this.listeners_[type]) {
+    for (var i = 0; i < this.listeners_[type].length; i++) {
+      this.listeners_[type][i].call(this);
+    }
+  }
 };
 
 AnalogTimePicker.prototype.updateInput_ = function() {
@@ -416,4 +419,20 @@ AnalogTimePicker.prototype.updateInput_ = function() {
   var minute = this.getFormattedMinute_(this.minute_);
   var period = this.getFormattedPeriod_(this.hour_);
   this.input_.value = hour + AnalogTimePicker.SEPARATOR + minute + ' ' + period;
+};
+
+AnalogTimePicker.prototype.addEventListener = function(type, listener) {
+  if (!this.listeners_[type]) {
+    this.listeners_[type] = [];
+  }
+  this.listeners_[type].push(listener);
+};
+
+AnalogTimePicker.prototype.removeEventListener = function(type, listener) {
+  if (this.listeners_[type]) {
+    var index = this.listeners_[type].indexOf(listener);
+    if (index != -1) {
+      this.listeners_[type].splice(index, 1);
+    }
+  }
 };
