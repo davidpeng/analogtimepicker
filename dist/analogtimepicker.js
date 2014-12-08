@@ -253,14 +253,22 @@ AnalogTimePicker.prototype.addEventListeners_ = function() {
 };
 
 AnalogTimePicker.prototype.getClockPosition_ = function(event) {
-  var rect = this.clock_.getBoundingClientRect();
-  var clockX = rect.left + document.body.scrollLeft;
-  var clockY = rect.top + document.body.scrollTop;
-  var x = event.pageX - clockX - this.clockCenter_;
-  var y = event.pageY - clockY - this.clockCenter_;
+  var position = this.getPagePosition_(this.clock_);
+  var x = event.pageX - position.x - this.clockCenter_;
+  var y = event.pageY - position.y - this.clockCenter_;
   return {
     radius: Math.sqrt(x * x + y * y),
     angle: Math.atan2(y, x) + Math.PI / 2
+  };
+};
+
+AnalogTimePicker.prototype.getPagePosition_ = function(element) {
+  var scrollX = document.documentElement.scrollLeft || document.body.scrollLeft;
+  var scrollY = document.documentElement.scrollTop || document.body.scrollTop;
+  var rect = element.getBoundingClientRect();
+  return {
+    x: scrollX + rect.left,
+    y: scrollY + rect.top
   };
 };
 
@@ -311,11 +319,9 @@ AnalogTimePicker.prototype.getAngleValue_ = function(angle) {
 };
 
 AnalogTimePicker.prototype.showPopup = function(triggerEvent) {
-  var rect = this.input_.getBoundingClientRect();
-  var inputX = rect.left + document.body.scrollLeft;
-  var inputY = rect.top + document.body.scrollTop;
-  this.popup_.style.left = inputX + 'px';
-  this.popup_.style.top = inputY + this.input_.offsetHeight + 'px';
+  var position = this.getPagePosition_(this.input_);
+  this.popup_.style.left = position.x + 'px';
+  this.popup_.style.top = position.y + this.input_.offsetHeight + 'px';
   this.popup_.style.display = 'block';
   
   var hidePopup = function(event) {
