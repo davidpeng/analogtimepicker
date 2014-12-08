@@ -247,7 +247,7 @@ AnalogTimePicker.prototype.addEventListeners_ = function() {
     }
     
     picker.input_.addEventListener('click', function() {
-      picker.showPopup_(true);
+      picker.showPopup(true);
     });
   }
 };
