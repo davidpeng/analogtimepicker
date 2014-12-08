@@ -209,6 +209,10 @@ AnalogTimePicker.prototype.addEventListeners_ = function() {
     picker.handleMouseUp_(picker.getClockPosition_(event));
   });
   
+  picker.clock_.addEventListener('mouseleave', function() {
+    picker.hover_.style.visibility = 'hidden';
+  });
+  
   picker.clock_.addEventListener('touchstart', function(event) {
     var position = picker.getClockPosition_(event.touches[0]);
     if (picker.mouseIsOverNumber_(position)) {
