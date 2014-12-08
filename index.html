@@ -1,14 +1,11 @@
 <!doctype html>
 <html>
   <head>
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="dist/jquery.analogtimepicker.css">
+    <link rel="stylesheet" href="dist/analogtimepicker.css">
     <link rel="stylesheet" href="assets/css/prism.min.css">
     <link rel="stylesheet" href="assets/css/doc.css">
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/prism.min.js"></script>
-    <script src="dist/jquery.analogtimepicker.js"></script>
+    <script src="dist/analogtimepicker.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Analog Time Picker</title>
   </head>
@@ -48,32 +45,9 @@
         <code>&lt;input&gt;</code>, the time picker will be put in a popover
         that is triggered by the <code>&lt;input&gt;</code>.</p>
       <div class="example">
-        <div class="row">
-          <div class="col-xs-2">
-            <input type="text" class="form-control analogtimepicker">
-          </div>
-          <div class="col-xs-3">
-            <div class="input-group analogtimepicker">
-              <input type="text" class="form-control">
-              <span class="input-group-btn">
-                <button class="btn btn-default" type="button">
-                  <span class="glyphicon glyphicon-time"></span>
-                </button>
-              </span>
-            </div>
-          </div>
-        </div>
+        <input type="text" class="form-control analogtimepicker">
       </div>
-      <pre class="highlight"><code class="language-markup">&lt;input type="text" class="form-control analogtimepicker"&gt;
-
-&lt;div class="input-group analogtimepicker"&gt;
-  &lt;input type="text" class="form-control"&gt;
-  &lt;span class="input-group-btn"&gt;
-    &lt;button class="btn btn-default" type="button"&gt;
-      &lt;span class="glyphicon glyphicon-time"&gt;&lt;/span&gt;
-    &lt;/button&gt;
-  &lt;/span&gt;
-&lt;/div&gt;</code></pre>
+      <pre class="highlight"><code class="language-markup">&lt;input type="text" class="form-control analogtimepicker"&gt;</code></pre>
       <h2>Usage</h2>
       <p>Enable time pickers via JavaScript:</p>
       <pre><code class="language-javascript">$('#example').analogtimepicker(options)</code></pre>
@@ -220,5 +194,11 @@
         <a href="https://raw.githubusercontent.com/davidpeng/analogtimepicker/master/LICENSE">MIT</a>
       </p>
     </div>
+    <script>
+      var pickers = document.querySelectorAll('.analogtimepicker');
+      for (var i = 0; i < pickers.length; i++) {
+        new AnalogTimePicker(pickers[i]);
+      }
+    </script>
   </body>
 </html>

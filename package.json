@@ -1,13 +1,13 @@
 {
   "name": "analogtimepicker",
   "version": "0.1.0",
-  "description": "Analog time picker for jQuery and Bootstrap.",
+  "description": "Analog time picker JavaScript component.",
   "keywords": [
     "analog",
     "time",
     "picker",
-    "jquery",
-    "bootstrap",
+    "javascript",
+    "js",
     "clock",
     "android"
   ],

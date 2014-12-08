@@ -1,3 +1,11 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto);
+
+body {
+  color: #333;
+  font-family: 'Roboto', sans-serif;
+  font-size: 13px;
+}
+
 .example {
   border-color: #e5e5e5 #eee #eee;
   border-style: solid;
