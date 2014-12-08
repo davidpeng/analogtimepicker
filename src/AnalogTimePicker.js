@@ -14,6 +14,7 @@ function AnalogTimePicker(element) {
     this.setupContainer_();
     this.popup_.style.display = 'none';
     this.input_ = element;
+    this.syncWithInput_();
   } else {
     this.container_ = element;
     this.setupContainer_();
