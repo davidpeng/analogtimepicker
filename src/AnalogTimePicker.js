@@ -1,5 +1,3 @@
-// TODO(davidpeng): Make sure this works with IE8.
-
 function AnalogTimePicker(element) {
   this.hour_ = 0;
   this.minute_ = 0;
@@ -334,7 +332,7 @@ AnalogTimePicker.prototype.showPopup = function(triggerEvent) {
       this.hidePopup(true);
     }
   }.bind(this);
-  document.body.addEventListener('click', hidePopup, true);
+  document.addEventListener('click', hidePopup, true);
   
   if (triggerEvent) {
     this.triggerEvent_('popupshow');
