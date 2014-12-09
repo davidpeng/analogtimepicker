@@ -104,13 +104,13 @@ Specify a function to call when an event of the specified type is triggered.
 ```javascript
 picker.addEventListener('timechange', function() {
   console.log('hour: ' + this.getHour() + ' minute: ' + this.getMinute());
-});
+})
 ```
 
 #### .removeEventListener(type, function)
 Remove a previously added function from being called when an event is triggered.
 ```javascript
-picker.removeEventListener('timechange', previouslyAddedListener);
+picker.removeEventListener('timechange', previouslyAddedListener)
 ```
 
 ### Events
