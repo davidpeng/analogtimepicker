@@ -2,11 +2,11 @@
 <html>
   <head>
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="dist/analogtimepicker.css">
+    <link rel="stylesheet" href="dist/analogtimepicker.min.css">
     <link rel="stylesheet" href="assets/css/prism.min.css">
     <link rel="stylesheet" href="assets/css/doc.css">
     <script src="assets/js/prism.min.js"></script>
-    <script src="dist/analogtimepicker.js"></script>
+    <script src="dist/analogtimepicker.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Analog Time Picker</title>
   </head>
@@ -15,120 +15,88 @@
       <h1 class="page-header">Analog Time Picker</h1>
       <p>Show an analog time picker so that users can input time more
         intuitively with a clock-style interface.</p>
-      <a href="https://github.com/davidpeng/analogtimepicker/archive/master.zip"
-          class="btn btn-primary btn-lg">
-        <span class="glyphicon glyphicon-download-alt"></span> Download ZIP</a>
-      <a href="https://github.com/davidpeng/analogtimepicker"
-          class="btn btn-default btn-lg">Go to GitHub page</a>
-      <a href="https://github.com/davidpeng/analogtimepicker/issues"
-          class="btn btn-danger btn-lg">Found a problem?</a>
+      <ul>
+        <li><b><a href="https://github.com/davidpeng/analogtimepicker/archive/master.zip">Download ZIP</a></b></li>
+        <li><a href="https://github.com/davidpeng/analogtimepicker">Go to GitHub page</a></li>
+        <li><a href="https://github.com/davidpeng/analogtimepicker/issues">Found a problem?</a></li>
+      </ul>
       <h2>Dependencies</h2>
-      <p>The analog time picker requires jQuery, and optionally requires
-        Bootstrap's popover CSS if you want to show an analog time picker in a
-        popover.</p>
-      <pre class="highlight"><code class="language-markup">&lt;link rel="stylesheet" href="bootstrap.min.css"&gt; &lt;!-- only required for popovers --&gt;
-&lt;link rel="stylesheet" href="jquery.analogtimepicker.css"&gt;
-&lt;script src="jquery.min.js"&gt;&lt;/script&gt;
-&lt;script src="jquery.analogtimepicker.js"&gt;&lt;/script&gt;</code></pre>
+      <p>The analog time picker has no external dependencies. You'll just need
+        to add the following lines to your HTML to start using the analog time
+        picker component.</p>
+      <pre class="highlight"><code class="language-markup">&lt;link rel="stylesheet" href="analogtimepicker.min.css"&gt;
+&lt;script src="analogtimepicker.min.js"&gt;&lt;/script&gt;</code></pre>
       <h2>Examples</h2>
       <h3>Inline time picker</h3>
-      <p>If you want to show a time picker inline (not in a popover triggered by
-        an <code>&lt;input&gt;</code>), add <code>.analogtimepicker</code> to a
-        <code>&lt;div&gt;</code> that doesn't contain an <code>
-        &lt;input&gt;</code>.</p>
       <div class="example">
-        <div class="analogtimepicker"></div>
+        <div id="inlinepicker"></div>
+        <script>
+          new AnalogTimePicker(document.getElementById('inlinepicker'));
+        </script>
       </div>
-      <pre class="highlight"><code class="language-markup">&lt;div class="analogtimepicker"&gt;&lt;/div&gt;</code></pre>
+      <pre class="highlight"><code class="language-markup">&lt;div id="inlinepicker"&gt;&lt;/div&gt;
+&lt;script&gt;
+  var container = document.getElementById('inlinepicker');
+  new AnalogTimePicker(container);
+&lt;/script&gt;
+</code></pre>
       <h3>Popover time picker</h3>
-      <p>If you add <code>.analogtimepicker</code> to an <code>
-        &lt;input&gt;</code> or a <code>&lt;div&gt;</code> that contains an
-        <code>&lt;input&gt;</code>, the time picker will be put in a popover
-        that is triggered by the <code>&lt;input&gt;</code>.</p>
       <div class="example">
-        <input type="text" class="form-control analogtimepicker">
+        <input type="text" id="time">
+        <script>
+          new AnalogTimePicker(input = document.getElementById('time'));
+        </script>
       </div>
-      <pre class="highlight"><code class="language-markup">&lt;input type="text" class="form-control analogtimepicker"&gt;</code></pre>
+      <pre class="highlight"><code class="language-markup">&lt;input type="text" id="time"&gt;
+&lt;script&gt;
+  var input = document.getElementById('time');
+  new AnalogTimePicker(input);
+&lt;/script&gt;</code></pre>
       <h2>Usage</h2>
-      <p>Enable time pickers via JavaScript:</p>
-      <pre><code class="language-javascript">$('#example').analogtimepicker(options)</code></pre>
-      <h2>Options</h2>
-      <p>Options can be passed via data attributes or JavaScript. For data
-        attributes, append the option name to <code>data-</code>, as in <code>
-        data-hour=""</code>.</p>
-      <table class="table table-bordered table-striped">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Default</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>hour</td>
-            <td>number</td>
-            <td>0</td>
-            <td>The currently selected hour. This should be a number between 0
-              and 23.</td>
-          </tr>
-          <tr>
-            <td>minute</td>
-            <td>number</td>
-            <td>0</td>
-            <td>The currently selected minute. This should be a number between 0
-              and 59.</td>
-          </tr>
-          <tr>
-            <td>popoverplacement</td>
-            <td>string</td>
-            <td>'bottom'</td>
-            <td>How to position the popover &mdash; top | bottom | left | right.
-              </td>
-          </tr>
-        </tbody>
-      </table>
       <h3>Methods</h3>
-      <h4>$().analogtimepicker(options)</h4>
-      <p>Initializes time pickers for an element collection.</p>
-      <h4>.analogtimepicker('hour')</h4>
+      <h4>AnalogTimePicker(element)</h4>
+      <p>Initializes a time picker. If the element supplied is an
+        <code>&lt;input&gt;</code>, the time picker will be created in a popup
+        shown when the user starts to edit the <code>&lt;input&gt;</code>.
+        Otherwise, the element will be a container for the time picker.</p>
+      <pre class="highlight"><code class="language-javascript">var container = document.getElementById('timepicker');
+var picker = new AnalogTimePicker(container);</code></pre>
+      <h4>.getHour()</h4>
       <p>Gets the currently selected hour.</p>
-      <pre class="highlight"><code class="language-javascript">$('#element').analogtimepicker('hour')</code></pre>
-      <h4>.analogtimepicker('hour', number)</h4>
+      <pre class="highlight"><code class="language-javascript">picker.getHour()</code></pre>
+      <h4>.setHour(number)</h4>
       <p>Sets the currently selected hour to the specified number.</p>
-      <pre class="highlight"><code class="language-javascript">$('#element').analogtimepicker('hour', 12)</code></pre>
-      <h4>.analogtimepicker('minute')</h4>
+      <pre class="highlight"><code class="language-javascript">picker.setHour(12)</code></pre>
+      <h4>.getMinute()</h4>
       <p>Gets the currently selected minute.</p>
-      <pre class="highlight"><code class="language-javascript">$('#element').analogtimepicker('minute')</code></pre>
-      <h4>.analogtimepicker('minute', number)</h4>
+      <pre class="highlight"><code class="language-javascript">picker.getMinute()</code></pre>
+      <h4>.setMinute(number)</h4>
       <p>Sets the currently selected minute to the specified number.</p>
-      <pre class="highlight"><code class="language-javascript">$('#element').analogtimepicker('minute', 59)</code></pre>
-      <h4>.analogtimepicker('mode')</h4>
+      <pre class="highlight"><code class="language-javascript">picker.setMinute(59)</code></pre>
+      <h4>.getMode()</h4>
       <p>Gets whether the time picker is currently set to pick an hour or a
         minute. The returned value is 'hour' or 'minute'.</p>
-      <pre class="highlight"><code class="language-javascript">$('#element').analogtimepicker('mode')</code></pre>
-      <h4>.analogtimepicker('mode', 'hour' | 'minute')</h4>
+      <pre class="highlight"><code class="language-javascript">picker.getMode()</code></pre>
+      <h4>.setMode('hour' | 'minute')</h4>
       <p>Sets whether the time picker should be set to pick an hour or a minute.
         </p>
-      <pre class="highlight"><code class="language-javascript">$('#element').analogtimepicker('mode', 'hour')</code></pre>
-      <h4>.analogtimepicker('popoverplacement')</h4>
-      <p>Gets how the popover is positioned. The returned value is 'top',
-        'bottom', 'left' or 'right'.</p>
-      <pre class="highlight"><code class="language-javascript">$('#element').analogtimepicker('popoverplacement')</code></pre>
-      <h4>.analogtimepicker('popoverplacement', 'top' | 'bottom' | 'left' |
-        'right')</h4>
-      <p>Sets how the popover is positioned.</p>
-      <pre class="highlight"><code class="language-javascript">$('#element').analogtimepicker('popoverplacement', 'right')</code></pre>
-      <h4>.analogtimepicker('showpopover')</h4>
-      <p>Reveals the popover if there is one.</p>
-      <pre class="highlight"><code class="language-javascript">$('#element').analogtimepicker('showpopover')</code></pre>
-      <h4>.analogtimepicker('hidepopover')</h4>
+      <pre class="highlight"><code class="language-javascript">picker.setMode('hour')</code></pre>
+      <h4>.showPopoup()</h4>
+      <p>Reveals the popup.</p>
+      <pre class="highlight"><code class="language-javascript">picker.showPopup()</code></pre>
+      <h4>.hidePopup()</h4>
       <p>Hides the popover.</p>
-      <pre class="highlight"><code class="language-javascript">$('#element').analogtimepicker('hidepopover')</code></pre>
-      <h4>.analogtimepicker('destroy')</h4>
-      <p>Destroys the time picker.</p>
-      <pre class="highlight"><code class="language-javascript">$('#element').analogtimepicker('destroy')</code></pre>
+      <pre class="highlight"><code class="language-javascript">picker.hidePopup()</code></pre>
+      <h4>.addEventListener(type, function)</h4>
+      <p>Specify a function to call when an event of the specified type is
+        triggered.</p>
+      <pre class="highlight"><code class="language-javascript">picker.addEventListener('timechange', function() {
+  console.log('hour: ' + this.getHour() + ' minute: ' + this.getMinute());
+})</code></pre>
+      <h4>.removeEventListener(type, function)</h4>
+      <p>Remove a previously added function from being called when an event is
+        triggered.</p>
+      <pre class="highlight"><code class="language-javascript">picker.removeEventListener('timechange', previouslyAddedListener)</code></pre>
       <h3>Events</h3>
       <table class="table table-bordered table-striped">
         <thead>
@@ -139,55 +107,27 @@
         </thead>
         <tbody>
           <tr>
-            <td>pick.analogtimepicker.time</td>
-            <td>This event fires when the user picks a new time, but before the
-              new time is accepted. The event object that's passed to the event
-              handler has two additional properties, <code>hour</code> and
-              <code>minute</code>, which store the newly picked time. If you
-              don't want the change to go through, you can cancel it by calling
-              <code>event.preventDefault()</code>.</td>
-          </tr>
-          <tr>
-            <td>picked.analogtimepicker.time</td>
+            <td>timechange</td>
             <td>This event is fired when the user has picked a new time.</td>
           </tr>
           <tr>
-            <td>switch.analogtimepicker.mode</td>
-            <td>This event fires when the user switches to hour picking mode or
-              minute picking mode, but before the switch is finalized. The event
-              object that's passed to the event handler has a <code>mode</code>
-              property which stores the new mode. If you don't want the switch
-              to go through, you can cancel it by calling <code>
-              event.preventDefault()</code>.</td>
-          </tr>
-          <tr>
-            <td>switched.analogtimepicker.mode</td>
+            <td>modechange</td>
             <td>This event is fired when the user has switched to hour picking
               mode or minute picking mode.</td>
           </tr>
           <tr>
-            <td>show.analogtimepicker.popover</td>
-            <td>This event fires right before the popover is made visible to the
+            <td>popupshow</td>
+            <td>This event is fired when the popup has been made visible to the
               user.</td>
           </tr>
           <tr>
-            <td>shown.analogtimepicker.popover</td>
-            <td>This event is fired when the popover has been made visible to
-              the user.</td>
-          </tr>
-          <tr>
-            <td>hide.analogtimepicker.popover</td>
-            <td>This event fires right before the popover is hidden from the
-              user.</td>
-          </tr>
-          <tr>
-            <td>hidden.analogtimepicker.popover</td>
-            <td>This event is fired when the popover has been hidden from the
+            <td>popuphide</td>
+            <td>This event is fired when the popup has been hidden from the
               user.</td>
           </tr>
         </tbody>
       </table>
-      <pre class="highlight"><code class="language-javascript">$('#example').on('picked.analogtimepicker.time', function(event) {
+      <pre class="highlight"><code class="language-javascript">picker.addEventListener('timechange', function() {
   // do something...
 })</code></pre>
       <h2>License</h2>
@@ -195,11 +135,5 @@
         <a href="https://raw.githubusercontent.com/davidpeng/analogtimepicker/master/LICENSE">MIT</a>
       </p>
     </div>
-    <script>
-      var pickers = document.querySelectorAll('.analogtimepicker');
-      for (var i = 0; i < pickers.length; i++) {
-        new AnalogTimePicker(pickers[i]);
-      }
-    </script>
   </body>
 </html>
